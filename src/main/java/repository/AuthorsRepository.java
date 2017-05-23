@@ -22,7 +22,6 @@ public class AuthorsRepository implements CRUDRepository
     private Statement statement;
     private Connection connection;
     private int idforfile = 0;
-    private List<Integer> fls = new ArrayList<Integer>();
     @SuppressWarnings("unchecked")
     public AuthorsRepository()
     {
@@ -90,6 +89,7 @@ public class AuthorsRepository implements CRUDRepository
 
     public List<File> getAllFiles()
     {
+        List<Integer> fls = new ArrayList<Integer>();
         List<File> sectList = new ArrayList<File>();
         try {
             String query = "SELECT * FROM legaf WHERE ida = ?";
@@ -105,6 +105,7 @@ public class AuthorsRepository implements CRUDRepository
         {
             ex.printStackTrace();
         }
+
         for (Integer idrez : fls)
         {
             List<File> rzm = new ArrayList<File>();
@@ -131,20 +132,25 @@ public class AuthorsRepository implements CRUDRepository
 
     public int uploadFile(String prop,String key,String top,String link, String abs,List<Author> autr)
     {
-        int lastId;
+        int lastId = 0;
         Session session = factory.openSession();
         Transaction tx = null;
-        try{
+        try
+        {
             tx = session.beginTransaction();
-            Query query = session.createNativeQuery("INSERT INTO file (keywords, topic, filedoc, abstractData, titlu) VALUES (:keywords, :topic, :filedoc, :abstractData, :titlu)");
+            Query query = session.createNativeQuery("INSERT INTO file (keywords, topic, filedoc, abstractData,cmaccept, titlu) VALUES (:keywords, :topic, :filedoc, :abstractData,:borderline , :titlu)");
             query.setParameter("keywords", key);
             query.setParameter("topic", top);
             query.setParameter("filedoc", link);
             query.setParameter("abstractData", abs);
+            query.setParameter("borderline", "borderline");
             query.setParameter("titlu", prop);
             query.executeUpdate();
             tx.commit();
-            lastId = ((BigInteger) session.createSQLQuery("SELECT LAST_INSERT_ID()").uniqueResult()).intValue();
+
+            final String sql = "SELECT max( i.idF ) FROM File i";
+            lastId = (Integer) session.createQuery( sql ).uniqueResult();
+
         }
         catch (HibernateException ex){
 
@@ -152,11 +158,23 @@ public class AuthorsRepository implements CRUDRepository
             ex.printStackTrace();
             return 0;
         }
-        finally
-        {
+            for(Author a : autr)
+            {
+                try
+                {
+                    String query = "INSERT INTO legaf(ida, idf) VALUES (?,?)";
+                    PreparedStatement preparedStmt = connection.prepareStatement(query);
+                    preparedStmt.setInt(1, a.getIda());
+                    preparedStmt.setInt(2, lastId);
+                    preparedStmt.execute();
+                }
+                catch (SQLException ex) {
+                    ex.printStackTrace();
+                    return 0;
+                }
+            }
             session.close();
             return 1;
-        }
     }
     public List<Conference> getAllConferences()
     {
@@ -291,7 +309,6 @@ public class AuthorsRepository implements CRUDRepository
     }
     public void save(String username, String password, String name) {
         Transaction tx = null;
-        boolean ret = false;
         Session ses = factory.openSession();
         try{
             tx = ses.beginTransaction();

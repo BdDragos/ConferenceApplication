@@ -249,6 +249,7 @@ public class Main extends Application
     {
         primaryStage.setScene(scene4);
         primaryStage.show();
+        controlAuthor.initialize();
     }
 
     private void AdminView()

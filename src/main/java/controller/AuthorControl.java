@@ -130,10 +130,15 @@ public class AuthorControl
             String top = topText.getText();
             String abs = absText.getText();
             String link = linkText.getText();
-            int ok = service.uploadFile(prop, key, top, link, abs, autr);
-            if (ok == 1) {
+            String deadline = proposalLabel.getText();
+            int ok = service.uploadFile(prop, key, top, link, abs, autr, deadline);
+            if (ok == 1)
+            {
                 lista = service.getAllFiles();
                 autr.clear();
+                files.clear();
+                files = FXCollections.observableArrayList(lista);
+                fileTable.refresh();
                 showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was added with success");
             } else
                 showErrorMessage("Eroare la adaugarea fisierului");

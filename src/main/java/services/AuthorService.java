@@ -6,6 +6,13 @@ import model.File;
 import model.Sections;
 import repository.AuthorsRepository;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,8 +53,20 @@ public class AuthorService
         return repo.getAfterFileId(id);
     }
 
-    public int uploadFile(String prop,String key,String top, String link,String abs,List<Author> autr)
+    public int uploadFile(String prop,String key,String top, String link,String abs,List<Author> autr,String deadline)
     {
-        return repo.uploadFile(prop,key,top,abs,link,autr);
+        Date got = new Date();
+        DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            got = dtf.parse(deadline);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        Date currentDate = new Date();
+        if (got.before(currentDate) || got.equals(currentDate))
+            return repo.uploadFile(prop,key,top,abs,link,autr);
+        else
+            return 0;
     }
 }
