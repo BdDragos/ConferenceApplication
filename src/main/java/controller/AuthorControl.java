@@ -45,9 +45,9 @@ public class AuthorControl
     @FXML private TextField linkText;
     @FXML private TableColumn<File, String> titlu;
     @FXML private TableColumn<File, String> filedoc;
+    @FXML private ListView<Author> listAuthor;
 
     private ObservableList<Author> aut;
-    private List<Author> authorSave;
     private AuthorService service;
     private ObservableList files;
     private List<File> lista = new ArrayList<File>();
@@ -103,12 +103,19 @@ public class AuthorControl
                 linkText.setText(((File) newSelection).getFiledoc());
                 propText.setText(((File) newSelection).getTitlu());
                 ObservableList<Author> autori = FXCollections.observableArrayList(service.getAfterFileId(((File) newSelection).getIdF()));
-                authorCombo.setItems(autori);
+                listAuthor.setItems(autori);
+                autr.clear();
+                autr.addAll(autori);
+                aut.removeAll(autr);
+                authorCombo.setItems(aut);
+                aut = FXCollections.observableArrayList(service.getAllAuthors());
+
             }
         });
         aut = FXCollections.observableArrayList(service.getAllAuthors());
         authorCombo.setItems(aut);
         fileTable.setItems(files);
+        autr.addAll(service.getAllAuthors());
     }
 
     @FXML
@@ -163,6 +170,7 @@ public class AuthorControl
         linkText.clear();
         propText.clear();
         autr.clear();
+        listAuthor.getItems().clear();
     }
 
     static void showMessage(Alert.AlertType type, String header, String text)

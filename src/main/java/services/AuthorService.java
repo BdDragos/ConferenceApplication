@@ -55,6 +55,8 @@ public class AuthorService
 
     public int uploadFile(String prop,String key,String top, String link,String abs,List<Author> autr,String deadline)
     {
+        if (deadline.compareTo("0") == 0)
+            return 0;
         Date got = new Date();
         DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
         try {
