@@ -105,7 +105,6 @@ public class AuthorsRepository implements CRUDRepository
         {
             ex.printStackTrace();
         }
-
         for (Integer idrez : fls)
         {
             List<File> rzm = new ArrayList<File>();
@@ -127,6 +126,12 @@ public class AuthorsRepository implements CRUDRepository
 
             }
         }
+        return sectList;
+    }
+
+    public List<Author> getAfterAuthotNOTid(List<Author> id)
+    {
+        List<Author> sectList = getAllAuthor();
         return sectList;
     }
 

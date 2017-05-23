@@ -102,13 +102,13 @@ public class AuthorControl
                 absText.setText(((File) newSelection).getAbstractData());
                 linkText.setText(((File) newSelection).getFiledoc());
                 propText.setText(((File) newSelection).getTitlu());
-                ObservableList<Author> autori = FXCollections.observableArrayList(service.getAfterFileId(((File) newSelection).getIdF()));
-                listAuthor.setItems(autori);
+                ObservableList<Author> autori1 = FXCollections.observableArrayList(service.getAfterFileId(((File) newSelection).getIdF()));
+                listAuthor.setItems(autori1);
                 autr.clear();
-                autr.addAll(autori);
-                aut.removeAll(autr);
-                authorCombo.setItems(aut);
-                aut = FXCollections.observableArrayList(service.getAllAuthors());
+                autr.addAll(autori1);
+                ObservableList<Author> autori2 = FXCollections.observableArrayList(service.getAfterAuthotNOTid(autr));
+                authorCombo.setItems(autori2);
+
 
             }
         });
@@ -147,8 +147,10 @@ public class AuthorControl
                 files = FXCollections.observableArrayList(lista);
                 fileTable.refresh();
                 showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was added with success");
-            } else
-                showErrorMessage("Eroare la adaugarea fisierului");
+            } else if (ok == 2)
+                showErrorMessage("The date is invalid");
+            else if (ok == 3)
+                showErrorMessage("You cannot upload files anymore");
         }
 
     }

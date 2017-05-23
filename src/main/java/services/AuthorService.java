@@ -53,10 +53,15 @@ public class AuthorService
         return repo.getAfterFileId(id);
     }
 
+    public List<Author> getAfterAuthotNOTid(List<Author> id)
+    {
+        return repo.getAfterAuthotNOTid(id);
+    }
+
     public int uploadFile(String prop,String key,String top, String link,String abs,List<Author> autr,String deadline)
     {
         if (deadline.compareTo("0") == 0)
-            return 0;
+            return 2;
         Date got = new Date();
         DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -69,6 +74,6 @@ public class AuthorService
         if (got.before(currentDate) || got.equals(currentDate))
             return repo.uploadFile(prop,key,top,abs,link,autr);
         else
-            return 0;
+            return 3;
     }
 }
