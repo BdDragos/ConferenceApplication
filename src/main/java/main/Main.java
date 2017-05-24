@@ -13,6 +13,8 @@ import javafx.stage.WindowEvent;
 import org.hibernate.SessionFactory;
 import repository.*;
 import javafx.event.ActionEvent;
+import services.ConfService;
+import services.SectionService;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,6 +77,7 @@ public class Main extends Application
         SessionFactory factory = dtb.getConnection();
         SectionRepository secRepo = new SectionRepository();
         FileRepository fileRepo = new FileRepository();
+        ConfRepository cr = new ConfRepository();
         CMRepository CMLRepository = new CMRepository();
         AttendantRepository ATLRepository = new AttendantRepository(factory);
         AuthorsRepository AULRepository = new AuthorsRepository(0);
@@ -88,6 +91,8 @@ public class Main extends Application
         loader4 = new FXMLLoader();
         loader5 = new FXMLLoader();
         loader6 = new FXMLLoader();
+        ConfService cs = new ConfService(cr);
+        SectionService ss = new SectionService(secRepo);
 
         try
         {
@@ -133,7 +138,7 @@ public class Main extends Application
             loader3.setLocation(fxmlUrl);
 
 
-            controlComitee = new ComiteeControl(this);
+            controlComitee = new ComiteeControl(this,cs,ss,fileRepo);
             loader3.setController(controlComitee);
             rootLayout3 = loader3.load();
             scene3 = new Scene(rootLayout3);

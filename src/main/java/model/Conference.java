@@ -39,10 +39,11 @@ public class Conference
 
     }
 
-    public Conference(String name, int noParticipants, String deadlineProposal) {
+    public Conference(String name, int noParticipants, String deadlineProposal, String deadlineAbstract) {
         this.name = name;
         this.noParticipants = noParticipants;
         this.deadlineProposal = deadlineProposal;
+        this.deadlineAbstract = deadlineAbstract;
 
     }
 

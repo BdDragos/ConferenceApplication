@@ -54,13 +54,23 @@ public class SectionRepository {
         return sections;
     }
 
-    public Integer addSection(int idConf,int sesC, String name){
+    public List<Sections> getAllSectionByConfId(int confid){
+        List<Sections> s = new ArrayList<Sections>();
+        for (Sections a : sections){
+            if (a.getIdConference() == confid){
+                s.add(a);
+            }
+        }
+        return s;
+    }
+
+    public Integer addSection(int idConf,int sesC, String name,String h,String d){
         Session session = factory.openSession();
         Transaction tx = null;
         Integer SectionID = null;
         try{
             tx = session.beginTransaction();
-            Sections s = new Sections(idConf,sesC,name);
+            Sections s = new Sections(idConf,sesC,name,h,d);
             SectionID = (Integer) session.save(s);
             tx.commit();
         }catch (HibernateException e) {
@@ -72,7 +82,7 @@ public class SectionRepository {
         return SectionID;
     }
 
-    public void updateSection(Integer SectionID, int sesC, String name ){
+    public void updateSection(Integer SectionID, int sesC, String name,String h,String d ){
         Session session = factory.openSession();
         Transaction tx = null;
         try{
@@ -81,6 +91,8 @@ public class SectionRepository {
                     (Sections)session.get(Sections.class, SectionID);
             s.setName(name);
             s.setSesChair(sesC);
+            s.setDate(d);
+            s.setHour(h);
             session.update(s);
             tx.commit();
         }catch (HibernateException e) {

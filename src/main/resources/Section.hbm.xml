@@ -14,5 +14,7 @@
         <property name="idConference" column="idc" type="int"/>
         <property name="sesChair" column="seschair" type="int"/>
         <property name="name" column="name" type="string"/>
+        <property name="hour" column="hour" type="string"/>
+        <property name="date" column="date" type="string"/>
     </class>
 </hibernate-mapping>

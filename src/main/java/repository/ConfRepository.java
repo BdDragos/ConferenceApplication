@@ -58,13 +58,13 @@ public class ConfRepository {
         return conferences;
     }
 
-    public Integer addConference(int noPart, String name, String deadline){
+    public Integer addConference(int noPart, String name, String deadlineprop, String deadlineabs){
         Session session = factory.openSession();
         Transaction tx = null;
         Integer ConfID = null;
         try{
             tx = session.beginTransaction();
-            Conference c = new Conference(name,noPart, deadline);
+            Conference c = new Conference(name,noPart, deadlineprop, deadlineabs);
             ConfID = (Integer) session.save(c);
             tx.commit();
         }catch (HibernateException e) {
@@ -76,7 +76,7 @@ public class ConfRepository {
         return ConfID;
     }
 
-    public void updateConference(Integer ConfID, int noPart, String name, String deadline ){
+    public void updateConference(Integer ConfID, int noPart, String name, String deadlineprop, String deadlineabs ){
         Session session = factory.openSession();
         Transaction tx = null;
         try{
