@@ -5,6 +5,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import main.Main;
 import model.Conference;
 import model.File;
@@ -16,6 +17,7 @@ import services.AuthorService;
 import services.ConfService;
 import services.ReviewerService;
 import services.SectionService;
+import sun.swing.SwingUtilities2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,22 +50,27 @@ public class ComiteeControl
     SectionService ctrlSection;
     FileRepository repoFile;
 
-    ConfRepository repoConf;
-    SectionRepository repoSection;
+    //ConfRepository repoConf;
+    //SectionRepository repoSection;
 
-    @FXML private TableView confTable;
+    @FXML private TableView<Conference> confTable;
     @FXML private TableColumn<Conference, String> confName;
     @FXML private TableColumn<Conference, Integer> confNopart;
     @FXML private TableColumn<Conference, String> confDeadlineProp;
     @FXML private TableColumn<Conference, String> confDeadlineAbs;
 
-    @FXML private TableView sectionTable;
+    @FXML private TableView<Sections> sectionTable;
     @FXML private TableColumn<Sections, String> sectionName;
     @FXML private TableColumn<Sections, Integer> sectionSeschair;
+    @FXML private TableColumn<Sections, String> sectionHour;
+    @FXML private TableColumn<Sections, String> sectionDate;
 
-    @FXML private TableView revTable;
+
+    @FXML private TableView<File> revTable;
     @FXML private TableColumn<File, String> fileTitlu;
     @FXML private TableColumn<File, String> fileDoc;
+
+
 
     @FXML private TextField taConfName;
     @FXML private TextField taNoPartConf;
@@ -90,24 +97,31 @@ public class ComiteeControl
     private ObservableList sections;
     private List<Sections> sectionList = new ArrayList<Sections>();
 
-    private ObservableList filesO;
-    private List<File> filesList = new ArrayList<File>();
-
 
     private ObservableList files;
     private List<File> fileList = new ArrayList<File>();
 
     public void upFileTable(){
-       // filesList = repoFile.getwhatiwant();
-        this.files = FXCollections.observableArrayList(filesO);
+        fileList = repoFile.getAllBorderline();
+        this.files = FXCollections.observableArrayList(fileList);
         revTable.setItems(files);
 
     }
-
+    @FXML
     public void initialize()
     {
-        this.ctrlConf = new ConfService(this.repoConf);
-        this.ctrlSection = new SectionService(this.repoSection);
+        confName.setCellValueFactory(new PropertyValueFactory<Conference, String>("name"));
+        confNopart.setCellValueFactory(new PropertyValueFactory<Conference, Integer>("noParticipants"));
+        confDeadlineProp.setCellValueFactory(new PropertyValueFactory<Conference, String>("deadlineProposal"));
+        confDeadlineAbs.setCellValueFactory(new PropertyValueFactory<Conference, String>("deadlineAbstract"));
+
+        sectionName.setCellValueFactory(new PropertyValueFactory<Sections, String>("name"));
+        sectionSeschair.setCellValueFactory(new PropertyValueFactory<Sections, Integer>("sesChair"));
+        sectionHour.setCellValueFactory(new PropertyValueFactory<Sections, String>("hour"));
+        sectionDate.setCellValueFactory(new PropertyValueFactory<Sections, String>("date"));
+
+        //this.ctrlConf = new ConfService(this.repoConf);
+        //this.ctrlSection = new SectionService(this.repoSection);
         confList = ctrlConf.getAll();
 
         this.conferences = FXCollections.observableArrayList(confList);
@@ -122,16 +136,16 @@ public class ComiteeControl
             }
         });
 
-        sections.addListener(new ListChangeListener()
-        {
-            @Override
-            public void onChanged(Change change)
-            {
+//        sections.addListener(new ListChangeListener()
+//        {
+//            @Override
+//            public void onChanged(Change change)
+//            {
+//
+//            }
+//        });
 
-            }
-        });
-
-        filesO.addListener(new ListChangeListener()
+        files.addListener(new ListChangeListener()
         {
             @Override
             public void onChanged(Change change)
