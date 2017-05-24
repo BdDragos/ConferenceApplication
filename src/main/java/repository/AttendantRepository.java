@@ -46,4 +46,24 @@ public class AttendantRepository implements CRUDRepository {
         return ret;
         //return false;
     }
+    public void save(String username, String password) {
+        Transaction tx = null;
+        boolean ret = false;
+        Session ses = factory.openSession();
+        try{
+            tx = ses.beginTransaction();
+            Query query = ses.createNativeQuery("INSERT INTO Attendant (username, password) VALUES (:username, :password)");
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+            query.executeUpdate();
+            tx.commit();
+        }
+        catch (HibernateException ex){
+            if (tx != null) tx.rollback();
+            ex.printStackTrace();
+        }
+        finally{
+            ses.close();
+        }
+    }
 }

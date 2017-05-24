@@ -2,11 +2,14 @@ package main;
 
 import controller.*;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import database.Database;
+import javafx.stage.WindowEvent;
 import org.hibernate.SessionFactory;
 import repository.*;
 import javafx.event.ActionEvent;
@@ -77,9 +80,10 @@ public class Main extends Application
         ConfRepository cr = new ConfRepository();
         CMRepository CMLRepository = new CMRepository();
         AttendantRepository ATLRepository = new AttendantRepository(factory);
-        AuthorsRepository AULRepository = new AuthorsRepository();
+        AuthorsRepository AULRepository = new AuthorsRepository(0);
         AdminRepository ADRepo = new AdminRepository(factory);
         ReviewerRepository RVWRepo = new ReviewerRepository();
+        DefaultUserRepository DURepo = new DefaultUserRepository(factory);
         this.primaryStage = primaryStage;
         loader = new FXMLLoader();
         loader2 = new FXMLLoader();
@@ -96,7 +100,7 @@ public class Main extends Application
             URL fxmlUrl = new File(pathToFxml).toURI().toURL();
             loader.setLocation(fxmlUrl);
 
-            controlLogin = new LoginControl(CMLRepository,ATLRepository,AULRepository,RVWRepo,ADRepo);
+            controlLogin = new LoginControl(CMLRepository,ATLRepository,AULRepository,RVWRepo,ADRepo, DURepo);
             loader.setController(controlLogin);
             rootLayout1 = loader.load();
             scene1 = new Scene(rootLayout1);
@@ -114,7 +118,8 @@ public class Main extends Application
             loader2.setLocation(fxmlUrl);
 
 
-            controlReviewer = new ReviewerControl(this,fileRepo);
+            //controlReviewer = new ReviewerControl(this,fileRepo);
+            controlReviewer = new ReviewerControl(this,fileRepo, RVWRepo);
             loader2.setController(controlReviewer);
             rootLayout2 = loader2.load();
             controlReviewer.initData();
@@ -150,7 +155,7 @@ public class Main extends Application
             loader4.setLocation(fxmlUrl);
 
 
-            controlAuthor = new AuthorControl(AULRepository,this);
+            controlAuthor = new AuthorControl(this);
             loader4.setController(controlAuthor);
             rootLayout4 = loader4.load();
             scene4 = new Scene(rootLayout4);
@@ -168,7 +173,7 @@ public class Main extends Application
             loader5.setLocation(fxmlUrl);
 
 
-            controlAdmin = new AdminControl(this);
+            controlAdmin = new AdminControl(this, CMLRepository, ATLRepository, AULRepository, RVWRepo, ADRepo, DURepo);
             loader5.setController(controlAdmin);
             rootLayout5 = loader5.load();
             scene5 = new Scene(rootLayout5);
@@ -189,7 +194,7 @@ public class Main extends Application
             controlAttendant = new AttendantControl(this);
             loader6.setController(controlAttendant);
             rootLayout6 = loader6.load();
-            controlAttendant.initialize();
+            //controlAttendant.initialize();
             scene6 = new Scene(rootLayout6);
         }
 
@@ -197,18 +202,24 @@ public class Main extends Application
         {
             ex.printStackTrace();
         }
-
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
         LoginView();
     }
 
-    public void authenticated(int check)
+    public void authenticated(int check,int idforfile)
     {
         if (check == 2)
             ReviewerView();
         if (check == 3)
             ComitteeView();
         if (check == 4)
-            AuthorView();
+            AuthorView(idforfile);
         if (check == 5)
             AdminView();
         if (check == 6)
@@ -239,21 +250,23 @@ public class Main extends Application
         primaryStage.show();
     }
 
-    private void AuthorView()
+    private void AuthorView(int idforfile)
     {
         primaryStage.setScene(scene4);
         primaryStage.show();
-        controlAuthor.initialize();
+        controlAuthor.initialize(idforfile);
     }
 
     private void AdminView()
     {
         primaryStage.setScene(scene5);
         primaryStage.show();
+        controlAdmin.initialize();
     }
     private void AttendantView()
     {
         primaryStage.setScene(scene6);
         primaryStage.show();
+        controlAttendant.initialize();
     }
 }

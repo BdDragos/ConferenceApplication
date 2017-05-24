@@ -29,12 +29,7 @@ public class Sections {
 
     @Override
     public String toString() {
-        return "Sections{" +
-                "idSection=" + idSection +
-                ", idConference=" + idConference +
-                ", sesChair=" + sesChair +
-                ", name=" + name +
-                '}';
+        return name;
     }
 
     public Sections() {}

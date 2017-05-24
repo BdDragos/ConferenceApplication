@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import repository.DefaultUserRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,26 +18,13 @@ public class RegisterControl
     @FXML private TextField userField;
     @FXML private PasswordField passField;
     @FXML private PasswordField repeatpassField;
-    private Statement statement;
-    private Connection connection;
+    private DefaultUserRepository DURepo;
 
+    public RegisterControl(DefaultUserRepository DURepo) {
+        this.DURepo = DURepo;
+    }
     public void initialize()
     {
-        String url = "jdbc:mysql://localhost:3306/cms";
-        String user = "root";
-        String password = "";
-        try
-        {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection(url, user, password);
-
-            statement = connection.createStatement();
-            statement.execute("USE cms");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -64,26 +52,20 @@ public class RegisterControl
                 showErrorMessage("Parolele trebuie sa fie identice.");
             }
             else
-                try {
-                    String query = "insert into userdefault values (?, ?)";
-                    PreparedStatement preparedStmt = connection.prepareStatement(query);
-                    preparedStmt.setString (1, userName);
-                    preparedStmt.setString (2, password);
-                    preparedStmt.execute();
+                if (DURepo.findOneByUsername(userName) != null) {
+                    showErrorMessage("User-ul deja exista !");
                 }
-                catch (SQLException ex)
-                {
-                    ex.printStackTrace();
-                    showErrorMessage("User-ul deja exista");
+                else {
+                    DURepo.add(userName, password);
+                    showMessage(Alert.AlertType.CONFIRMATION, "Register !", "Ati fost inregistrat.\nAsteptati ca adminul sa va activeze contul.");
                 }
-
     }
 
-    private static void showMessage(Alert.AlertType type)
+    private static void showMessage(Alert.AlertType type, String header, String msg)
     {
         Alert message=new Alert(type);
-        message.setHeaderText("Succes");
-        message.setContentText("Succes");
+        message.setHeaderText(header);
+        message.setContentText(msg);
         message.showAndWait();
     }
 

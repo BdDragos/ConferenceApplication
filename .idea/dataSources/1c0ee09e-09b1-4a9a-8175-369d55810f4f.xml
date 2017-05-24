@@ -1,426 +1,427 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="Hibernate.cfg.xml/Hibernate">
-  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.1">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.2">
     <root id="1"/>
     <schema id="2" parent="1" name="cms">
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
-    <schema id="3" parent="1" name="information_schema"/>
-    <schema id="4" parent="1" name="mysql"/>
-    <schema id="5" parent="1" name="performance_schema"/>
-    <schema id="6" parent="1" name="phpmyadmin"/>
-    <schema id="7" parent="1" name="test"/>
-    <table id="8" parent="2" name="accept"/>
-    <table id="9" parent="2" name="admin"/>
-    <table id="10" parent="2" name="attendant"/>
-    <table id="11" parent="2" name="authors"/>
-    <table id="12" parent="2" name="cm"/>
-    <table id="13" parent="2" name="conference"/>
-    <table id="14" parent="2" name="file"/>
-    <table id="15" parent="2" name="legaf"/>
-    <table id="16" parent="2" name="participants"/>
-    <table id="17" parent="2" name="sections"/>
-    <table id="18" parent="2" name="userdefault"/>
-    <column id="19" parent="8" name="idac">
+    <schema id="3" parent="1" name="flights"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="mysql"/>
+    <schema id="6" parent="1" name="performance_schema"/>
+    <schema id="7" parent="1" name="phpmyadmin"/>
+    <schema id="8" parent="1" name="test"/>
+    <table id="9" parent="2" name="accept"/>
+    <table id="10" parent="2" name="admin"/>
+    <table id="11" parent="2" name="attendant"/>
+    <table id="12" parent="2" name="authors"/>
+    <table id="13" parent="2" name="cm"/>
+    <table id="14" parent="2" name="conference"/>
+    <table id="15" parent="2" name="file"/>
+    <table id="16" parent="2" name="legaf"/>
+    <table id="17" parent="2" name="participants"/>
+    <table id="18" parent="2" name="sections"/>
+    <table id="19" parent="2" name="userdefault"/>
+    <column id="20" parent="9" name="idac">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="20" parent="8" name="acceptlvl">
+    <column id="21" parent="9" name="acceptlvl">
       <Position>2</Position>
       <DataType>varchar(40)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="21" parent="8" name="idf">
+    <column id="22" parent="9" name="idf">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="22" parent="8" name="idcm">
+    <column id="23" parent="9" name="idcm">
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="23" parent="8" name="idcm">
+    <index id="24" parent="9" name="idcm">
       <ColNames>idcm</ColNames>
     </index>
-    <index id="24" parent="8" name="idf">
+    <index id="25" parent="9" name="idf">
       <ColNames>idf</ColNames>
     </index>
-    <key id="25" parent="8" name="PRIMARY">
+    <key id="26" parent="9" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idac</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="26" parent="8" name="accept_ibfk_1">
+    <foreign-key id="27" parent="9" name="accept_ibfk_1">
       <ColNames>idf</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>file</RefTableName>
       <RefColNames>idf</RefColNames>
     </foreign-key>
-    <foreign-key id="27" parent="8" name="accept_ibfk_2">
+    <foreign-key id="28" parent="9" name="accept_ibfk_2">
       <ColNames>idcm</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>cm</RefTableName>
       <RefColNames>idcm</RefColNames>
     </foreign-key>
-    <column id="28" parent="9" name="idAd">
+    <column id="29" parent="10" name="idAd">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="29" parent="9" name="username">
+    <column id="30" parent="10" name="username">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="30" parent="9" name="password">
+    <column id="31" parent="10" name="password">
       <Position>3</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="31" parent="9" name="PRIMARY">
+    <key id="32" parent="10" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idAd</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="32" parent="10" name="idat">
+    <column id="33" parent="11" name="idat">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="33" parent="10" name="username">
+    <column id="34" parent="11" name="username">
       <Position>2</Position>
       <DataType>varchar(70)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="34" parent="10" name="password">
+    <column id="35" parent="11" name="password">
       <Position>3</Position>
       <DataType>varchar(70)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="35" parent="10" name="PRIMARY">
+    <key id="36" parent="11" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idat</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="36" parent="11" name="ida">
+    <column id="37" parent="12" name="ida">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="37" parent="11" name="username">
+    <column id="38" parent="12" name="username">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="38" parent="11" name="password">
+    <column id="39" parent="12" name="password">
       <Position>3</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="39" parent="11" name="name">
+    <column id="40" parent="12" name="name">
       <Position>4</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="40" parent="11" name="PRIMARY">
+    <key id="41" parent="12" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ida</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="41" parent="12" name="idcm">
+    <column id="42" parent="13" name="idcm">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="42" parent="12" name="username">
+    <column id="43" parent="13" name="username">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="43" parent="12" name="password">
+    <column id="44" parent="13" name="password">
       <Position>3</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="44" parent="12" name="name">
+    <column id="45" parent="13" name="name">
       <Position>4</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="45" parent="12" name="affiliation">
+    <column id="46" parent="13" name="affiliation">
       <Position>5</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="46" parent="12" name="email">
+    <column id="47" parent="13" name="email">
       <Position>6</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="47" parent="12" name="webpage">
+    <column id="48" parent="13" name="webpage">
       <Position>7</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="48" parent="12" name="PRIMARY">
+    <key id="49" parent="13" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idcm</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="49" parent="13" name="idconf">
+    <column id="50" parent="14" name="idconf">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="50" parent="13" name="noparticipants">
+    <column id="51" parent="14" name="noparticipants">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="51" parent="13" name="name">
+    <column id="52" parent="14" name="name">
       <Position>3</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="52" parent="13" name="deadlineProposal">
+    <column id="53" parent="14" name="deadlineProposal">
       <Position>4</Position>
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="53" parent="13" name="deadlineAbstract">
+    <column id="54" parent="14" name="deadlineAbstract">
       <Position>5</Position>
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="54" parent="13" name="PRIMARY">
+    <key id="55" parent="14" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idconf</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="55" parent="14" name="idf">
+    <column id="56" parent="15" name="idf">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="56" parent="14" name="keywords">
+    <column id="57" parent="15" name="keywords">
       <Position>2</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="57" parent="14" name="topic">
+    <column id="58" parent="15" name="topic">
       <Position>3</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="58" parent="14" name="filedoc">
+    <column id="59" parent="15" name="filedoc">
       <Position>4</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="59" parent="14" name="cmaccept">
+    <column id="60" parent="15" name="cmaccept">
       <Position>5</Position>
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="60" parent="14" name="idses">
-      <Position>6</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="61" parent="14" name="reviewerCount">
+    <column id="61" parent="15" name="reviewerCount">
       <Position>7</Position>
       <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="62" parent="14" name="abstractData">
+    <column id="62" parent="15" name="idses">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="63" parent="15" name="abstractData">
       <Position>8</Position>
       <DataType>varchar(200)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="63" parent="14" name="titlu">
+    <column id="64" parent="15" name="titlu">
       <Position>9</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="64" parent="14" name="fk_file_ses">
+    <index id="65" parent="15" name="fk_file_ses">
       <ColNames>idses</ColNames>
     </index>
-    <key id="65" parent="14" name="PRIMARY">
+    <key id="66" parent="15" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idf</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="66" parent="15" name="idaf">
+    <column id="67" parent="16" name="idaf">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="67" parent="15" name="ida">
+    <column id="68" parent="16" name="ida">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="68" parent="15" name="idf">
+    <column id="69" parent="16" name="idf">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="69" parent="15" name="ida">
+    <index id="70" parent="16" name="ida">
       <ColNames>ida</ColNames>
     </index>
-    <index id="70" parent="15" name="idf">
+    <index id="71" parent="16" name="idf">
       <ColNames>idf</ColNames>
     </index>
-    <key id="71" parent="15" name="PRIMARY">
+    <key id="72" parent="16" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idaf</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="72" parent="15" name="legaf_ibfk_1">
+    <foreign-key id="73" parent="16" name="legaf_ibfk_1">
       <ColNames>ida</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>authors</RefTableName>
       <RefColNames>ida</RefColNames>
     </foreign-key>
-    <foreign-key id="73" parent="15" name="legaf_ibfk_2">
+    <foreign-key id="74" parent="16" name="legaf_ibfk_2">
       <ColNames>idf</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>file</RefTableName>
       <RefColNames>idf</RefColNames>
     </foreign-key>
-    <column id="74" parent="16" name="idpa">
+    <column id="75" parent="17" name="idpa">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="75" parent="16" name="typepa">
+    <column id="76" parent="17" name="typepa">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="76" parent="16" name="ida">
+    <column id="77" parent="17" name="ida">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="77" parent="16" name="idat">
+    <column id="78" parent="17" name="idat">
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="78" parent="16" name="ids">
+    <column id="79" parent="17" name="ids">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="79" parent="16" name="ida">
+    <index id="80" parent="17" name="ida">
       <ColNames>ida</ColNames>
     </index>
-    <index id="80" parent="16" name="idat">
+    <index id="81" parent="17" name="idat">
       <ColNames>idat</ColNames>
     </index>
-    <index id="81" parent="16" name="ids">
+    <index id="82" parent="17" name="ids">
       <ColNames>ids</ColNames>
     </index>
-    <key id="82" parent="16" name="PRIMARY">
+    <key id="83" parent="17" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idpa</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="83" parent="16" name="participants_ibfk_2">
+    <foreign-key id="84" parent="17" name="participants_ibfk_2">
       <ColNames>ida</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>authors</RefTableName>
       <RefColNames>ida</RefColNames>
     </foreign-key>
-    <foreign-key id="84" parent="16" name="participants_ibfk_1">
+    <foreign-key id="85" parent="17" name="participants_ibfk_1">
       <ColNames>idat</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>attendant</RefTableName>
       <RefColNames>idat</RefColNames>
     </foreign-key>
-    <foreign-key id="85" parent="16" name="participants_ibfk_3">
+    <foreign-key id="86" parent="17" name="participants_ibfk_3">
       <ColNames>ids</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>sections</RefTableName>
       <RefColNames>ids</RefColNames>
     </foreign-key>
-    <column id="86" parent="17" name="ids">
+    <column id="87" parent="18" name="ids">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="87" parent="17" name="idc">
+    <column id="88" parent="18" name="idc">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="88" parent="17" name="seschair">
+    <column id="89" parent="18" name="seschair">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="89" parent="17" name="name">
+    <column id="90" parent="18" name="name">
       <Position>4</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="90" parent="17" name="hour">
+    <column id="91" parent="18" name="hour">
       <Position>5</Position>
       <DataType>varchar(10)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="91" parent="17" name="date">
+    <column id="92" parent="18" name="date">
       <Position>6</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="92" parent="17" name="fk_section_cm">
-      <ColNames>seschair</ColNames>
-    </index>
-    <index id="93" parent="17" name="idc">
+    <index id="93" parent="18" name="idc">
       <ColNames>idc</ColNames>
     </index>
-    <key id="94" parent="17" name="PRIMARY">
+    <index id="94" parent="18" name="fk_section_cm">
+      <ColNames>seschair</ColNames>
+    </index>
+    <key id="95" parent="18" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ids</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="95" parent="17" name="fk_section_conference">
+    <foreign-key id="96" parent="18" name="fk_section_conference">
       <ColNames>idc</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>conference</RefTableName>
       <RefColNames>idconf</RefColNames>
     </foreign-key>
-    <foreign-key id="96" parent="17" name="fk_section_cm">
+    <foreign-key id="97" parent="18" name="fk_section_cm">
       <ColNames>seschair</ColNames>
       <RefSchemaName>cms</RefSchemaName>
       <RefTableName>cm</RefTableName>
       <RefColNames>idcm</RefColNames>
     </foreign-key>
-    <column id="97" parent="18" name="username">
+    <column id="98" parent="19" name="username">
       <Position>1</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="98" parent="18" name="password">
+    <column id="99" parent="19" name="password">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="99" parent="18" name="PRIMARY">
+    <key id="100" parent="19" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>username</ColNames>
       <Primary>1</Primary>

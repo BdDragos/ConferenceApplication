@@ -47,10 +47,6 @@ public class Author implements Serializable
 
     @Override
     public String toString() {
-        return "Author{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

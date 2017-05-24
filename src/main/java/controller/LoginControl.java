@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.ResourceBundle;
 
 /**
@@ -39,15 +40,17 @@ public class LoginControl implements Initializable {
     private AuthorsRepository AULRepository;
     private ReviewerRepository RVWRepo;
     private AdminRepository ADRepo;
+    private DefaultUserRepository DURepo;
 
 
-    public LoginControl(CMRepository cmloginRep, AttendantRepository atloginrep, AuthorsRepository atuloginrep, ReviewerRepository RVWRepo, AdminRepository ADRepo)
+    public LoginControl(CMRepository cmloginRep, AttendantRepository atloginrep, AuthorsRepository atuloginrep, ReviewerRepository RVWRepo, AdminRepository ADRepo, DefaultUserRepository DURepo)
     {
         this.CMLRepository = cmloginRep;
         this.ATLRepository = atloginrep;
         this.AULRepository = atuloginrep;
         this.RVWRepo = RVWRepo;
         this.ADRepo = ADRepo;
+        this.DURepo = DURepo;
         this.secondStage = new Stage();
     }
 
@@ -76,6 +79,7 @@ public class LoginControl implements Initializable {
             @Override
             public void handle(ActionEvent event)
             {
+                    int idforfile = 0;
                     int response = 0;
                     String userName = userField.getText();
                     String password = passwordField.getText();
@@ -94,7 +98,8 @@ public class LoginControl implements Initializable {
                             }
                             else if (reviewRadio.isSelected())
                             {
-                                    if (RVWRepo.login(userName, password)) {
+                                    if (RVWRepo.login(userName, password))
+                                    {
                                         showMessage(Alert.AlertType.CONFIRMATION);
                                         response = 2;
                                     }
@@ -103,7 +108,8 @@ public class LoginControl implements Initializable {
 
                             else if (authorRadio.isSelected())
                             {
-                                    if (AULRepository.login(userName, password))
+                                    idforfile = AULRepository.login(userName, password);
+                                    if (idforfile !=0)
                                     {
                                         showMessage(Alert.AlertType.CONFIRMATION);
                                         response = 4;
@@ -130,7 +136,7 @@ public class LoginControl implements Initializable {
                             }
                             else
                             {
-                                loginManager.authenticated(response);
+                                loginManager.authenticated(response,idforfile);
 
                             }
                     }
@@ -147,7 +153,7 @@ public class LoginControl implements Initializable {
             URL fxmlUrl = new File(pathToFxml).toURI().toURL();
             loader.setLocation(fxmlUrl);
 
-            RegisterControl registerCont = new RegisterControl();
+            RegisterControl registerCont = new RegisterControl(DURepo);
             loader.setController(registerCont);
             AnchorPane rootLayout1;
             Scene scene1;

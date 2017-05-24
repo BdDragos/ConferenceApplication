@@ -20,13 +20,10 @@ import java.util.List;
  * Created by Dragos on 5/8/2017.
  */
 public class ReviewerRepository implements CRUDRepository{
-    //TODO
-    /*LOGIN function
-    *@param: user si pass
-    *@return: true/false if found in database
-    */
+
     private static SessionFactory factory;
     private List<CM> reviewerList = new ArrayList<>();
+    private int idLogin;
     public ReviewerRepository() {
         try {
             this.factory = new Configuration().configure().buildSessionFactory();
@@ -54,9 +51,19 @@ public class ReviewerRepository implements CRUDRepository{
     }
     public boolean login(String username, String password){
         for(int i = 0; i < reviewerList.size(); i++){
-            if(reviewerList.get(i).getUsername().equals(username) && reviewerList.get(i).getPassword().equals(password))
+            if(reviewerList.get(i).getUsername().equals(username) && reviewerList.get(i).getPassword().equals(password)) {
+                setIdLogin(reviewerList.get(i).getId());
                 return true;
+            }
         }
         return false;
+    }
+
+    public int getIdLogin() {
+        return idLogin;
+    }
+
+    public void setIdLogin(int idLogin) {
+        this.idLogin = idLogin;
     }
 }

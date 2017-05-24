@@ -40,5 +40,6 @@
         <Button fx:id="logoutBtn" layoutX="566.0" layoutY="452.0" mnemonicParsing="false" text="Logout" />
       <TextArea fx:id="absArea" layoutX="509.0" layoutY="117.0" prefHeight="175.0" prefWidth="159.0" />
       <Label layoutX="574.0" layoutY="83.0" text="Abstract" />
+      <Button fx:id="hideMineBtn" layoutX="159.0" layoutY="465.0" mnemonicParsing="false" text="Hide My Papers" />
     </children>
 </AnchorPane>

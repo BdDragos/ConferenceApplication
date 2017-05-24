@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="model.DefaultUser" table="userdefault">
+        <meta attribute="class-description">
+            This class contains the admin detail.
+        </meta>
+        <id name="username" type="string" column="username">
+            <generator class="native"/>
+        </id>
+        <property name="password" column="password" type="string"/>
+    </class>
+</hibernate-mapping>
