@@ -50,7 +50,7 @@ public class CMRepository implements CRUDRepository
 
     public boolean login(String username, String password)
     {
-        return false;
+        return true;
     }
     public void save(String username, String password, String name, String affiliation, String email, String webpage) {
         Transaction tx = null;
