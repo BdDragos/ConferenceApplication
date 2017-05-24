@@ -16,7 +16,7 @@
       <Label fx:id="proposalLabel" layoutX="177.0" layoutY="141.0" text="Date2" />
       <ComboBox fx:id="confCombo" layoutX="33.0" layoutY="20.0" prefHeight="31.0" prefWidth="184.0" promptText="Select a conference" />
       <ComboBox fx:id="sesCombo" layoutX="33.0" layoutY="57.0" prefHeight="31.0" prefWidth="184.0" promptText="Select a section" />
-      <Button fx:id="uploadButton" layoutX="353.0" layoutY="567.0" mnemonicParsing="false" onAction="#setUpload" prefHeight="21.0" prefWidth="92.0" text="Upload file" />
+      <Button fx:id="uploadButton" layoutX="536.0" layoutY="490.0" mnemonicParsing="false" onAction="#setUpload" prefHeight="21.0" prefWidth="92.0" text="Upload file" />
       <Label layoutX="36.0" layoutY="176.0" text="Proposal name:" />
       <Label layoutX="36.0" layoutY="218.0" text="Keywords:" />
       <TextField fx:id="propText" layoutX="144.0" layoutY="171.0" />
@@ -46,5 +46,6 @@
       <Button fx:id="clearButton" layoutX="353.0" layoutY="525.0" mnemonicParsing="false" onAction="#setOnClear" text="Refresh the form" />
       <ListView fx:id="listAuthor" layoutX="144.0" layoutY="438.0" prefHeight="118.0" prefWidth="187.0" />
       <Label layoutX="44.0" layoutY="572.0" text="All authors:" />
+      <Button layoutX="353.0" layoutY="490.0" mnemonicParsing="false" onAction="#setUpdate" text="Update the selected file" />
    </children>
 </AnchorPane>

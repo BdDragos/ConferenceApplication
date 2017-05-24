@@ -79,6 +79,7 @@ public class LoginControl implements Initializable {
             @Override
             public void handle(ActionEvent event)
             {
+                    int idforfile = 0;
                     int response = 0;
                     String userName = userField.getText();
                     String password = passwordField.getText();
@@ -97,7 +98,8 @@ public class LoginControl implements Initializable {
                             }
                             else if (reviewRadio.isSelected())
                             {
-                                    if (RVWRepo.login(userName, password)) {
+                                    if (RVWRepo.login(userName, password))
+                                    {
                                         showMessage(Alert.AlertType.CONFIRMATION);
                                         response = 2;
                                     }
@@ -106,7 +108,8 @@ public class LoginControl implements Initializable {
 
                             else if (authorRadio.isSelected())
                             {
-                                    if (AULRepository.login(userName, password))
+                                    idforfile = AULRepository.login(userName, password);
+                                    if (idforfile !=0)
                                     {
                                         showMessage(Alert.AlertType.CONFIRMATION);
                                         response = 4;
@@ -133,7 +136,7 @@ public class LoginControl implements Initializable {
                             }
                             else
                             {
-                                loginManager.authenticated(response);
+                                loginManager.authenticated(response,idforfile);
 
                             }
                     }

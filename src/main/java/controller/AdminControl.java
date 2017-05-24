@@ -195,14 +195,14 @@ public class AdminControl
             ATLRepository.save(du.getUsername(), du.getPassword());
         }
         else if (selectedAccess.equals("Author")) {
-            if (AULRepository.login(du.getUsername(), du.getPassword())) {
+            if (AULRepository.login(du.getUsername(), du.getPassword())!=0) {
                 showMessage(Alert.AlertType.ERROR, "Author Register", "User already exists in authors !");
                 return;
             }
             AULRepository.save(du.getUsername(), du.getPassword(), info1);
         }
         else if (selectedAccess.equals("CM")) {
-            if (AULRepository.login(du.getUsername(), du.getPassword())) {
+            if (AULRepository.login(du.getUsername(), du.getPassword())!=0) {
                 showMessage(Alert.AlertType.WARNING, "CM Register", "User already exists in authors (skipped) !\nPending for register in CM...");
             }
             if (CMLRepository.login(du.getUsername(), du.getPassword())) {

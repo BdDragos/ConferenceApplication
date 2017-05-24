@@ -58,7 +58,7 @@ public class AuthorService
         return repo.getAfterAuthotNOTid(id);
     }
 
-    public int uploadFile(String prop,String key,String top, String link,String abs,List<Author> autr,String deadline)
+    public int uploadFile(String prop,String key,String top, String link,String abs,List<Author> autr, int idses,String deadline)
     {
         if (deadline.compareTo("0") == 0)
             return 2;
@@ -72,7 +72,26 @@ public class AuthorService
         }
         Date currentDate = new Date();
         if (got.before(currentDate) || got.equals(currentDate))
-            return repo.uploadFile(prop,key,top,abs,link,autr);
+            return repo.uploadFile(prop,key,top,link,abs,idses,autr);
+        else
+            return 3;
+    }
+
+    public int updateFile(String prop, String key, String top, String link, String abs, List<Author> autr, String deadline, int idses, int idf)
+    {
+        if (deadline.compareTo("0") == 0)
+            return 2;
+        Date got = new Date();
+        DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            got = dtf.parse(deadline);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        Date currentDate = new Date();
+        if (got.before(currentDate) || got.equals(currentDate))
+            return repo.updateFile(prop,key,top,link,abs,idses,autr,idf);
         else
             return 3;
     }

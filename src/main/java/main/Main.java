@@ -77,7 +77,7 @@ public class Main extends Application
         FileRepository fileRepo = new FileRepository();
         CMRepository CMLRepository = new CMRepository();
         AttendantRepository ATLRepository = new AttendantRepository(factory);
-        AuthorsRepository AULRepository = new AuthorsRepository();
+        AuthorsRepository AULRepository = new AuthorsRepository(0);
         AdminRepository ADRepo = new AdminRepository(factory);
         ReviewerRepository RVWRepo = new ReviewerRepository();
         DefaultUserRepository DURepo = new DefaultUserRepository(factory);
@@ -150,7 +150,7 @@ public class Main extends Application
             loader4.setLocation(fxmlUrl);
 
 
-            controlAuthor = new AuthorControl(AULRepository,this);
+            controlAuthor = new AuthorControl(this);
             loader4.setController(controlAuthor);
             rootLayout4 = loader4.load();
             scene4 = new Scene(rootLayout4);
@@ -207,14 +207,14 @@ public class Main extends Application
         LoginView();
     }
 
-    public void authenticated(int check)
+    public void authenticated(int check,int idforfile)
     {
         if (check == 2)
             ReviewerView();
         if (check == 3)
             ComitteeView();
         if (check == 4)
-            AuthorView();
+            AuthorView(idforfile);
         if (check == 5)
             AdminView();
         if (check == 6)
@@ -245,11 +245,11 @@ public class Main extends Application
         primaryStage.show();
     }
 
-    private void AuthorView()
+    private void AuthorView(int idforfile)
     {
         primaryStage.setScene(scene4);
         primaryStage.show();
-        controlAuthor.initialize();
+        controlAuthor.initialize(idforfile);
     }
 
     private void AdminView()

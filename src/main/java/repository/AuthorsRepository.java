@@ -23,8 +23,9 @@ public class AuthorsRepository implements CRUDRepository
     private Connection connection;
     private int idforfile = 0;
     @SuppressWarnings("unchecked")
-    public AuthorsRepository()
+    public AuthorsRepository(int idforfile)
     {
+        this.idforfile = idforfile;
         String url = "jdbc:mysql://localhost:3306/cms";
         String user = "root";
         String password = "";
@@ -135,7 +136,7 @@ public class AuthorsRepository implements CRUDRepository
         return sectList;
     }
 
-    public int uploadFile(String prop,String key,String top,String link, String abs,List<Author> autr)
+    public int uploadFile(String prop,String key,String top,String link, String abs,int idses,List<Author> autr)
     {
         int lastId = 0;
         Session session = factory.openSession();
@@ -143,13 +144,14 @@ public class AuthorsRepository implements CRUDRepository
         try
         {
             tx = session.beginTransaction();
-            Query query = session.createNativeQuery("INSERT INTO file (keywords, topic, filedoc, abstractData,cmaccept, titlu) VALUES (:keywords, :topic, :filedoc, :abstractData,:borderline , :titlu)");
+            Query query = session.createNativeQuery("INSERT INTO file (keywords, topic, filedoc, abstractData,cmaccept, titlu, idses) VALUES (:keywords, :topic, :filedoc, :abstractData, :borderline ,:titlu, :idses)");
             query.setParameter("keywords", key);
             query.setParameter("topic", top);
             query.setParameter("filedoc", link);
             query.setParameter("abstractData", abs);
             query.setParameter("borderline", "borderline");
             query.setParameter("titlu", prop);
+            query.setParameter("idses", idses);
             query.executeUpdate();
             tx.commit();
 
@@ -163,24 +165,90 @@ public class AuthorsRepository implements CRUDRepository
             ex.printStackTrace();
             return 0;
         }
-            for(Author a : autr)
+        for(Author a : autr)
+        {
+            try
             {
-                try
-                {
-                    String query = "INSERT INTO legaf(ida, idf) VALUES (?,?)";
-                    PreparedStatement preparedStmt = connection.prepareStatement(query);
-                    preparedStmt.setInt(1, a.getIda());
-                    preparedStmt.setInt(2, lastId);
-                    preparedStmt.execute();
-                }
-                catch (SQLException ex) {
-                    ex.printStackTrace();
-                    return 0;
-                }
+                String query = "INSERT INTO legaf(ida, idf) VALUES (?,?)";
+                PreparedStatement preparedStmt = connection.prepareStatement(query);
+                preparedStmt.setInt(1, a.getIda());
+                preparedStmt.setInt(2, lastId);
+                preparedStmt.execute();
             }
-            session.close();
-            return 1;
+            catch (SQLException ex) {
+                ex.printStackTrace();
+                return 0;
+            }
+        }
+        session.close();
+        return 1;
     }
+
+
+    public int updateFile(String prop,String key,String top,String link, String abs,int idses,List<Author> autr,int idf)
+    {
+        int lastId = 0;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try
+        {
+            tx = session.beginTransaction();
+            File fl = session.get(File.class, idf);
+            fl.setTitlu(prop);
+            fl.setKeywords(key);
+            fl.setTopic(top);
+            fl.setFiledoc(link);
+            fl.setAbstractData(abs);
+            fl.setIdses(idses);
+            session.update(fl);
+            tx.commit();
+
+        }
+        catch (HibernateException ex){
+
+            if (tx != null) tx.rollback();
+            ex.printStackTrace();
+            return 0;
+        }
+        for(Author a : autr)
+        {
+            try
+            {
+                String query = "DELETE FROM legaf WHERE idf = ?";
+                PreparedStatement preparedStmt = connection.prepareStatement(query);
+                preparedStmt.setInt(1, idf);
+                preparedStmt.execute();
+            }
+            catch (SQLException ex) {
+                ex.printStackTrace();
+                return 0;
+            }
+        }
+
+        for(Author a : autr)
+        {
+            try
+            {
+                String query = "INSERT INTO legaf(ida, idf) VALUES (?,?)";
+                PreparedStatement preparedStmt = connection.prepareStatement(query);
+                preparedStmt.setInt(1, a.getIda());
+                preparedStmt.setInt(2, idf);
+                preparedStmt.execute();
+            }
+            catch (SQLException ex) {
+                ex.printStackTrace();
+                return 0;
+            }
+        }
+
+        session.close();
+        return 1;
+    }
+
+
+
+
+
     public List<Conference> getAllConferences()
     {
         Session session = factory.openSession();
@@ -295,7 +363,7 @@ public class AuthorsRepository implements CRUDRepository
         return sectList;
     }
 
-    public boolean login(String username,String password)
+    public int login(String username,String password)
     {
         List<Author> authors = getAllAuthor();
         Author rez = null;
@@ -305,12 +373,14 @@ public class AuthorsRepository implements CRUDRepository
                 rez = aut;
             }
 
-        if (rez!=null) {
-            this.idforfile = rez.getIda();
-            return true;
+        if (rez!=null)
+        {
+            int idforfile = 0;
+            idforfile = rez.getIda();
+            return idforfile;
         }
         else
-            return false;
+            return 0;
     }
     public void save(String username, String password, String name) {
         Transaction tx = null;
