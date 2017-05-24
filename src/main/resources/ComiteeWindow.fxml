@@ -7,48 +7,55 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="517.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="601.0" prefWidth="894.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView layoutX="5.0" layoutY="36.0" prefHeight="311.0" prefWidth="299.0">
+      <TableView fx:id="confTable" layoutX="5.0" layoutY="36.0" onMouseClicked="#fillSection" prefHeight="311.0" prefWidth="330.0">
         <columns>
-          <TableColumn prefWidth="134.0" text="Name" />
-          <TableColumn prefWidth="54.0" text="NoPart" />
-            <TableColumn prefWidth="114.0" text="Deadline" />
+          <TableColumn fx:id="confName" prefWidth="100.99998474121094" text="Name" />
+          <TableColumn fx:id="confNopart" prefWidth="51.0" text="NoPart" />
+            <TableColumn fx:id="confDeadline" prefWidth="93.0" text="DeadlineProp" />
+            <TableColumn prefWidth="84.0" text="DeadlineAbs" />
         </columns>
       </TableView>
-      <TableView layoutX="349.0" layoutY="36.0" prefHeight="311.0" prefWidth="221.0">
+      <TableView fx:id="sectionTable" layoutX="349.0" layoutY="36.0" prefHeight="311.0" prefWidth="221.0">
         <columns>
-          <TableColumn prefWidth="145.0" text="Name" />
-          <TableColumn prefWidth="81.0" text="Ses Chair" />
+          <TableColumn fx:id="sectionName" prefWidth="145.0" text="Name" />
+          <TableColumn fx:id="sectionSeschair" prefWidth="81.0" text="Ses Chair" />
         </columns>
       </TableView>
       <Label alignment="CENTER" layoutX="124.0" layoutY="14.0" prefHeight="17.0" prefWidth="81.0" text="Conferences" />
-      <Label layoutX="410.0" layoutY="14.0" text="Section" />
-      <TextField layoutX="146.0" layoutY="368.0" prefHeight="27.0" prefWidth="135.0" />
-      <TextField layoutX="146.0" layoutY="403.0" prefHeight="27.0" prefWidth="135.0" />
+      <Label layoutX="410.0" layoutY="14.0" text="Session" />
+      <TextField fx:id="taConfName" layoutX="146.0" layoutY="368.0" prefHeight="27.0" prefWidth="135.0" />
+      <TextField fx:id="taNoPartConf" layoutX="146.0" layoutY="403.0" prefHeight="27.0" prefWidth="135.0" />
       <Label layoutX="28.0" layoutY="373.0" prefHeight="17.0" prefWidth="113.0" text="Conference Name" />
       <Label layoutX="33.0" layoutY="408.0" prefHeight="17.0" prefWidth="113.0" text="N.of Participants" />
-      <Button layoutX="11.0" layoutY="483.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="81.0" text="Save Conf" />
-      <Button layoutX="194.0" layoutY="485.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="96.0" text="Update Conf" />
-      <TextField layoutX="427.0" layoutY="368.0" prefHeight="27.0" prefWidth="135.0" />
-      <TextField layoutX="427.0" layoutY="403.0" prefHeight="27.0" prefWidth="135.0" />
+      <Button fx:id="btSaveConf" layoutX="11.0" layoutY="526.0" mnemonicParsing="false" onAction="#saveConf" prefHeight="27.0" prefWidth="81.0" text="Save Conf" />
+      <Button fx:id="btUpdateConf" layoutX="194.0" layoutY="528.0" mnemonicParsing="false" onAction="#updateConf" prefHeight="27.0" prefWidth="96.0" text="Update Conf" />
+      <TextField fx:id="taSectionName" layoutX="427.0" layoutY="368.0" prefHeight="27.0" prefWidth="135.0" />
+      <TextField fx:id="taSectionChair" layoutX="427.0" layoutY="403.0" prefHeight="27.0" prefWidth="135.0" />
       <Label layoutX="331.0" layoutY="373.0" prefHeight="17.0" prefWidth="89.0" text="Section Name" />
       <Label layoutX="330.0" layoutY="408.0" prefHeight="17.0" prefWidth="89.0" text="Session Chair" />
-      <Button layoutX="315.0" layoutY="441.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="103.0" text="Save Section" />
-      <Button layoutX="439.0" layoutY="441.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Update Section" />
-      <Button layoutX="95.0" layoutY="485.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="96.0" text="Delete Conf" />
-      <Button layoutX="386.0" layoutY="478.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Delete Section" />
-      <TableView layoutX="588.0" layoutY="67.0" prefHeight="311.0" prefWidth="245.0">
+      <Button fx:id="btSaveSection" layoutX="381.0" layoutY="517.0" mnemonicParsing="false" onAction="#saveSection" prefHeight="5.0" prefWidth="113.0" text="Save Session" />
+      <Button fx:id="btUpdateSection" layoutX="439.0" layoutY="552.0" mnemonicParsing="false" onAction="#updateSection" prefHeight="2.0" prefWidth="119.0" text="Update Session" />
+      <Button fx:id="btDeleteConf" layoutX="95.0" layoutY="527.0" mnemonicParsing="false" onAction="#deleteConf" prefHeight="27.0" prefWidth="96.0" text="Delete Conf" />
+      <Button fx:id="btDeleteSection" layoutX="306.0" layoutY="553.0" mnemonicParsing="false" onAction="#deleteSection" prefHeight="27.0" prefWidth="128.0" text="Delete Session" />
+      <TableView fx:id="revTable" layoutX="588.0" layoutY="67.0" prefHeight="311.0" prefWidth="245.0">
         <columns>
-          <TableColumn prefWidth="118.0" text="Titlu" />
-          <TableColumn prefWidth="142.0" text="FileDoc" />
+          <TableColumn fx:id="fileTitlu" prefWidth="100.0" text="Titlu" />
+          <TableColumn fx:id="fileDoc" prefWidth="160.0" text="FileDoc" />
         </columns>
       </TableView>
-      <Label layoutX="586.0" layoutY="31.0" prefHeight="0.0" prefWidth="257.0" text="Files which must be accepted or rejected" />
-      <Button layoutX="656.0" layoutY="389.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="113.0" text="Accept File" />
-      <Button layoutX="656.0" layoutY="438.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Reject File" />
-      <TextField layoutX="145.0" layoutY="441.0" prefHeight="27.0" prefWidth="144.0" />
-      <Label layoutX="33.0" layoutY="441.0" prefHeight="27.0" prefWidth="89.0" text="Deadline" />
+      <Label layoutX="586.0" layoutY="41.0" prefHeight="7.0" prefWidth="257.0" text="Files which must be accepted or rejected" />
+      <Button fx:id="btAcceptFile" layoutX="656.0" layoutY="389.0" mnemonicParsing="false" onAction="#acceptFile" prefHeight="6.0" prefWidth="113.0" text="Accept File" />
+      <Button fx:id="btRejectFile" layoutX="656.0" layoutY="438.0" mnemonicParsing="false" onAction="#rejectFile" prefHeight="27.0" prefWidth="113.0" text="Reject File" />
+      <TextField fx:id="taConfDeadlineProp" layoutX="145.0" layoutY="441.0" prefHeight="27.0" prefWidth="144.0" />
+       <TextField fx:id="taConfDeadlineAbs" layoutX="147.0" layoutY="490.0" prefHeight="27.0" prefWidth="135.0" />
+      <Label layoutX="24.0" layoutY="441.0" prefHeight="27.0" prefWidth="119.0" text="Deadline Proposal" />
       <Button layoutX="748.0" layoutY="1.0" mnemonicParsing="false" onAction="#setLogoutAction" prefHeight="27.0" prefWidth="89.0" text="Logout" />
+      <Label layoutX="35.0" layoutY="497.0" text="Deadline Abstract" />
+      <Label layoutX="328.0" layoutY="446.0" prefHeight="17.0" prefWidth="89.0" text="Session Hour" />
+      <Label layoutX="328.0" layoutY="482.0" prefHeight="7.0" prefWidth="89.0" text="Session Date" />
+      <TextField fx:id="taSectionHour" layoutX="427.0" layoutY="438.0" prefHeight="27.0" prefWidth="135.0" />
+      <TextField layoutX="427.0" layoutY="477.0" prefHeight="27.0" prefWidth="135.0" />
    </children>
 </AnchorPane>

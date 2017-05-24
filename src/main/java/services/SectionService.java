@@ -19,15 +19,19 @@ public class SectionService {
         return repo.getAll();
     }
 
-    public Integer addSection(int idConf,int sesC, String name){
-        return repo.addSection(idConf,sesC,name);
+    public Integer addSection(int idConf, int sesC, String name,String h,String d){
+        return repo.addSection(idConf,sesC,name,h,d);
     }
 
-    public void updateSection(Integer SectionID, int sesC, String name ){
-        repo.updateSection(SectionID,sesC,name);
+    public void updateSection(Integer SectionID, int sesC, String name,String h,String d ){
+        repo.updateSection(SectionID,sesC,name,h,d);
     }
 
     public void deleteSection(Integer SectionID){
         repo.deleteSection(SectionID);
+    }
+
+    public List<Sections> getAllSectionByConfId(int confid){
+        return repo.getAllSectionByConfId(confid);
     }
 }

@@ -8,6 +8,24 @@ public class Sections {
     int idConference;
     int sesChair;
     String name;
+    String hour;
+    String date;
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     @Override
     public String toString() {
@@ -53,18 +71,20 @@ public class Sections {
         this.name = name;
     }
 
-    public Sections(int idSection, int idConference, int sesChair, String name) {
-
+    public Sections(int idSection, int idConference, int sesChair, String name, String hour, String date) {
         this.idSection = idSection;
         this.idConference = idConference;
         this.sesChair = sesChair;
         this.name = name;
+        this.hour = hour;
+        this.date = date;
     }
 
-    public Sections(int idConference, int sesChair, String name) {
-
+    public Sections(int idConference, int sesChair, String name, String hour, String date) {
         this.idConference = idConference;
         this.sesChair = sesChair;
         this.name = name;
+        this.hour = hour;
+        this.date = date;
     }
 }
