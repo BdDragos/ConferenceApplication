@@ -32,7 +32,7 @@
       <ComboBox fx:id="authorCombo" layoutX="144.0" layoutY="567.0" prefHeight="31.0" prefWidth="187.0" />
       <Label layoutX="34.0" layoutY="394.0" text="File cloud link:" />
       <TextField fx:id="linkText" layoutX="144.0" layoutY="389.0" />
-      <TableView fx:id="fileTable" layoutX="353.0" layoutY="24.0" onMouseClicked="#setOnClick" prefHeight="396.0" prefWidth="275.0">
+      <TableView fx:id="fileTable" layoutX="353.0" layoutY="24.0" prefHeight="396.0" prefWidth="275.0">
          <columns>
             <TableColumn fx:id="titlu" prefWidth="139.0" text="Title">
                <cellValueFactory><PropertyValueFactory property="titlu" />
