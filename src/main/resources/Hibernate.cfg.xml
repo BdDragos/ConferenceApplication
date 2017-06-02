@@ -21,7 +21,7 @@
         <mapping resource="Attendant.hbm.xml"/>
         <mapping resource="DefaultUser.hbm.xml"/>
         <mapping resource="Legaf.hbm.xml"/>
-        <mapping resource="Participant.hbm.xml"/>
+        <mapping resource="Participants.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

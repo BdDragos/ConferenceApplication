@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<AnchorPane prefHeight="518.0" prefWidth="722.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="518.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <TableView fx:id="fileTable" prefHeight="449.0" prefWidth="417.0">
+        <TableView fx:id="fileTable" layoutX="14.0" layoutY="14.0" prefHeight="449.0" prefWidth="472.0">
             <columns>
                 <TableColumn fx:id="topicC" prefWidth="75.0" text="Topic">
                     <cellValueFactory><PropertyValueFactory property="topic" />
@@ -23,23 +23,23 @@
                     </cellValueFactory>
                 </TableColumn>
 
-                <TableColumn fx:id="acceptC" prefWidth="100.0" text="CurrentAccept">
+                <TableColumn fx:id="acceptC" prefWidth="127.0" text="CurrentAccept">
                     <cellValueFactory><PropertyValueFactory property="level" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="norC" prefWidth="92.0" text="No. of Reviews">
+                <TableColumn fx:id="norC" prefWidth="119.0" text="No. of Reviews">
                     <cellValueFactory><PropertyValueFactory property="reviewCount" />
                     </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>
         <ComboBox fx:id="acceptCB" layoutX="518.0" layoutY="339.0" prefWidth="150.0" />
-        <Button fx:id="openFileBtn" layoutX="480.0" layoutY="20.0" mnemonicParsing="false" text="Open File" />
+        <Button fx:id="openFileBtn" layoutX="509.0" layoutY="14.0" mnemonicParsing="false" text="Open File" />
         <Label layoutX="562.0" layoutY="312.0" text="Accept Level" />
-        <Button fx:id="reviewButton" layoutX="564.0" layoutY="380.0" mnemonicParsing="false" text="Review!" />
-        <Button fx:id="logoutBtn" layoutX="566.0" layoutY="452.0" mnemonicParsing="false" text="Logout" />
+        <Button fx:id="reviewButton" layoutX="527.0" layoutY="378.0" mnemonicParsing="false" text="Review!" />
+        <Button fx:id="logoutBtn" layoutX="634.0" layoutY="473.0" mnemonicParsing="false" text="Logout" />
       <TextArea fx:id="absArea" layoutX="509.0" layoutY="117.0" prefHeight="175.0" prefWidth="159.0" />
-      <Label layoutX="574.0" layoutY="83.0" text="Abstract" />
-      <Button fx:id="hideMineBtn" layoutX="159.0" layoutY="465.0" mnemonicParsing="false" text="Hide My Papers" />
+      <Label layoutX="509.0" layoutY="87.0" text="Abstract" />
+      <Button fx:id="hideMineBtn" layoutX="14.0" layoutY="473.0" mnemonicParsing="false" text="Hide My Papers" />
     </children>
 </AnchorPane>

@@ -1,14 +1,22 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import main.Main;
 import model.Author;
 import model.Conference;
@@ -17,6 +25,10 @@ import model.Sections;
 import repository.AuthorsRepository;
 import services.AuthorService;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +39,8 @@ import java.util.ResourceBundle;
  */
 public class AuthorControl
 {
-    AuthorsRepository repo;
-    final Main loginManager;
+    private AuthorsRepository repo;
+    private final Main loginManager;
     @FXML private ComboBox<Conference> confCombo;
     @FXML private ComboBox<Sections> sesCombo;
     @FXML private ComboBox<Author> authorCombo;
@@ -46,6 +58,8 @@ public class AuthorControl
     @FXML private TableColumn<File, String> titlu;
     @FXML private TableColumn<File, String> filedoc;
     @FXML private ListView<Author> listAuthor;
+    @FXML private Button fileButton;
+    @FXML private Button partikipButton;
 
     private int idforfile;
     private ObservableList<Author> aut;
@@ -114,6 +128,36 @@ public class AuthorControl
 
             }
         });
+
+        fileButton.setOnAction(e ->
+        {
+            try {
+                String website = fileTable.getSelectionModel().getSelectedItem().getFiledoc();
+                Desktop.getDesktop().browse(new URI(website));
+            }
+            catch (IOException e1)
+            {
+                e1.printStackTrace();
+            } catch (URISyntaxException e1)
+            {
+                e1.printStackTrace();
+            }
+            catch(NullPointerException el)
+            {
+                showErrorMessage("Select a file!");
+            }
+        });
+
+        partikipButton.setOnAction(e ->
+        {
+            int idses = sesCombo.getValue().getIdSection();
+            int ok = service.registerToConference(idses,idforfile);
+            if (ok == 1)
+                showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The registration was done with success");
+            else
+                showErrorMessage("Error registering to event");
+        });
+
         aut = FXCollections.observableArrayList(service.getAllAuthors());
         authorCombo.setItems(aut);
         fileTable.setItems(files);
@@ -125,6 +169,7 @@ public class AuthorControl
     {
         loginManager.logOut();
     }
+
 
     @FXML
     public void setUpload()
@@ -164,6 +209,7 @@ public class AuthorControl
         }
 
     }
+
 
     @FXML
     public void setUpdate()

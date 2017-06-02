@@ -95,4 +95,10 @@ public class AuthorService
         else
             return 3;
     }
+
+    public int registerToConference(int idses, int idforfile)
+    {
+        int ok = repo.registerToConference(idses,idforfile);
+        return ok;
+    }
 }

@@ -422,4 +422,28 @@ public class AuthorsRepository implements CRUDRepository
             return sectList;
         }
     }
+
+    public int registerToConference(int idses, int idforfile)
+    {
+        Transaction tx = null;
+        Session ses = factory.openSession();
+        try{
+            tx = ses.beginTransaction();
+            Query query = ses.createNativeQuery("INSERT INTO Participants (ids, ida) VALUES (:idses, :ida)");
+            query.setParameter("idses", idses);
+            query.setParameter("ida", idforfile);
+            query.executeUpdate();
+            tx.commit();
+        }
+        catch (HibernateException ex){
+            if (tx != null) tx.rollback();
+            ex.printStackTrace();
+            return 0;
+        }
+        finally
+        {
+            ses.close();
+            return 1;
+        }
+    }
 }
