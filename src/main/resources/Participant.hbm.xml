@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="model.Participants" table="participants">
+        <meta attribute="class-description">
+            This class contains the flight detail.
+        </meta>
+        <id name="idpa" type="int" column="idpa">
+            <generator class="native"/>
+        </id>
+        <property name="typepa" column="typepa" type="string"/>
+        <property name="ida" column="ida" type="int"/>
+        <property name="idat" column="idat" type="int"/>
+        <property name="ids" column="ids" type="int"/>
+    </class>
+</hibernate-mapping>
