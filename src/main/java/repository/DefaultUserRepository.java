@@ -91,12 +91,12 @@ public class DefaultUserRepository {
             session.close();
         }
     }
-    public void add(String username, String password) {
+    public void save(DefaultUser defaultUser) {
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createNativeQuery("INSERT INTO userdefault (username, password) VALUES (\'"+username+"\', \'"+password+"\')");
+            Query query = session.createNativeQuery("INSERT INTO userdefault (username, password) VALUES (\'"+defaultUser.getUsername()+"\', \'"+defaultUser.getPassword()+"\')");
             query.executeUpdate();
             tx.commit();
         } catch (HibernateException e) {

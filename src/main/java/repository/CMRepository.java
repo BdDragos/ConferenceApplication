@@ -1,5 +1,6 @@
 package repository;
 
+import model.CM;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * Created by Cosmin on 4/4/2017.
@@ -50,7 +52,10 @@ public class CMRepository implements CRUDRepository
 
     public boolean login(String username, String password)
     {
-        return true;
+        CM cm = findOne(username);
+        if (cm.getPassword().equals(password))
+            return true;
+        return false;
     }
     public void save(String username, String password, String name, String affiliation, String email, String webpage) {
         Transaction tx = null;
@@ -74,6 +79,59 @@ public class CMRepository implements CRUDRepository
         }
         finally{
             ses.close();
+        }
+    }
+    public List<CM> getAll() {
+        List<CM> lusers = null;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM CM ");
+            lusers = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return lusers;
+    }
+    public CM findOne(String username) {
+        CM cm = null;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM CM where username = :username");
+            query.setParameter("username", username);
+            List<CM> adminList = query.list();
+            if (!adminList.isEmpty())
+                cm = adminList.get(0);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return cm;
+    }
+    public void delete(String username) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("delete CM where username = :username");
+            query.setParameter("username", username);
+            query.executeUpdate();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
     }
 }

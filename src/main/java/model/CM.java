@@ -82,4 +82,8 @@ public class CM {
     private String email;
     private String webpage;
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

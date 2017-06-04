@@ -4,7 +4,7 @@ package model;
  * Created by Cosmin on 5/13/2017...
  */
 public class Attendant {
-    public Attendant() {};
+    public Attendant() {}
     public Attendant(int idat, String username, String password) {
         this.idat = idat;
         this.username = username;
@@ -38,4 +38,8 @@ public class Attendant {
     private int idat;
     private String username;
     private String password;
+    @Override
+    public String toString() {
+        return username;
+    }
 }

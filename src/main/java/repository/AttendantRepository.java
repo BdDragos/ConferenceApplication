@@ -110,4 +110,57 @@ public class AttendantRepository implements CRUDRepository {
             ses.close();
         }
     }
+    public List<Attendant> getAll() {
+        List<Attendant> lusers = null;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM Attendant ");
+            lusers = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return lusers;
+    }
+    public void delete(String username) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("delete Attendant where username = :username");
+            query.setParameter("username", username);
+            query.executeUpdate();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+    public Attendant findOne(String username) {
+        Attendant attendant = null;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM Attendant where username = :username");
+            query.setParameter("username", username);
+            List<Attendant> attendantList = query.list();
+            if (!attendantList.isEmpty())
+                attendant = attendantList.get(0);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return attendant;
+    }
 }

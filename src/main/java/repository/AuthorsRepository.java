@@ -446,4 +446,43 @@ public class AuthorsRepository implements CRUDRepository
             return 1;
         }
     }
+    public List<Author> getAll() {
+        return getAllAuthor();
+    }
+    public void delete(String username) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("delete Author where username = :username");
+            query.setParameter("username", username);
+            query.executeUpdate();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+    public Author findOne(String username) {
+        Author author = null;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM Author where username = :username");
+            query.setParameter("username", username);
+            List<Author> authorList = query.list();
+            if (!authorList.isEmpty())
+                author = authorList.get(0);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return author;
+    }
 }

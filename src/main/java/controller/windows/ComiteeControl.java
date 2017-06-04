@@ -1,4 +1,4 @@
-package controller;
+package controller.windows;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
