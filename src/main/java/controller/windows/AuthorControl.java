@@ -1,4 +1,4 @@
-package controller;
+package controller.windows;
 
 import javafx.event.ActionEvent;
 import javafx.beans.value.ChangeListener;

@@ -1,4 +1,4 @@
-package controller;
+package controller.windows;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,8 +18,6 @@ import model.Sections;
 import repository.SectionRepository;
 
 import java.util.List;
-
-import static controller.AuthorControl.showErrorMessage;
 
 /**
  * Created by Dragos on 5/8/2017.
@@ -102,9 +100,9 @@ public class AttendantControl
     @FXML
     public void partikip(){
         if (conferenceComboBox.getSelectionModel().getSelectedItem() == null)
-            showErrorMessage("Please select a conference");
+            AuthorControl.showErrorMessage("Please select a conference");
         else if (sessionComboBox.getSelectionModel().getSelectedItem() == null)
-            showErrorMessage("Please select a session");
+            AuthorControl.showErrorMessage("Please select a session");
         else{
             int id = conferenceComboBox.getSelectionModel().getSelectedItem().getIdConference();
             attRepo.partikip(id);

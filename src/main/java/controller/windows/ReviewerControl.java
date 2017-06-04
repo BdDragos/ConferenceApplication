@@ -1,4 +1,4 @@
-package controller;
+package controller.windows;
 
 import com.sun.jmx.mbeanserver.Repository;
 import javafx.collections.FXCollections;
