@@ -128,7 +128,8 @@ public class LoginControl implements Initializable {
                             {
                                     if (adminService.login(userName, password)) {
                                         showMessage(Alert.AlertType.CONFIRMATION);
-                                        response = 5;
+                                        loginManager.AdminView(adminService.findOne(userName));
+                                        return;
                                     }
 
                             }

@@ -25,6 +25,9 @@ import java.util.stream.Collectors;
  */
 public class AdminWindowController
 {
+    // Logged user
+    private Admin admin;
+
     final Main loginManager;
     @FXML private ComboBox<DefaultUser> defaultUsersComboBox;
     @FXML private RadioButton adminRadioButton;
@@ -80,8 +83,9 @@ public class AdminWindowController
     private AdminService adminService;
     private DefaultUserService defaultUserService;
     private ParticipantsService participantsService;
+    private SectionRepository sectionRepository;
 
-    public AdminWindowController(final Main loginManager, CMRepository CMLRepository, AttendantRepository ATLRepository, AuthorsRepository AULRepository, ReviewerRepository RVWRepo, AdminService adminService, DefaultUserService defaultUserService, ParticipantsService participantsService) {
+    public AdminWindowController(final Main loginManager, CMRepository CMLRepository, AttendantRepository ATLRepository, AuthorsRepository AULRepository, ReviewerRepository RVWRepo, AdminService adminService, DefaultUserService defaultUserService, ParticipantsService participantsService, SectionRepository sectionRepository) {
         this.loginManager = loginManager;
         this.CMLRepository = CMLRepository;
         this.ATLRepository = ATLRepository;
@@ -90,11 +94,14 @@ public class AdminWindowController
         this.adminService = adminService;
         this.defaultUserService = defaultUserService;
         this.participantsService = participantsService;
+        this.sectionRepository = sectionRepository;
 
         toggleRadioGroup = new ToggleGroup();
     }
 
-    public void initialize() {
+    public void initialize(Admin admin) {
+        this.admin = admin;
+
         adminRadioButton.setToggleGroup(toggleRadioGroup);
         attendantRadioButton.setToggleGroup(toggleRadioGroup);
         authorRadioButton.setToggleGroup(toggleRadioGroup);
@@ -236,27 +243,35 @@ public class AdminWindowController
         showMessage(Alert.AlertType.CONFIRMATION, "Register OK", "Register OK");
     }
     @FXML public void attendantButtonOnAction() {
+        loginManager.activeAdmin = this.admin;
+        loginManager.bAdminActive = true;
         loginManager.AttendantView();
     }
     @FXML public void authorButtonOnAction() {
+        loginManager.activeAdmin = this.admin;
+        loginManager.bAdminActive = true;
         loginManager.AuthorView(0);
     }
     @FXML public void cmButtonOnAction() {
+        loginManager.activeAdmin = this.admin;
+        loginManager.bAdminActive = true;
         loginManager.ComitteeView();
     }
     @FXML public void reviewerButtonOnAction() {
+        loginManager.activeAdmin = this.admin;
+        loginManager.bAdminActive = true;
         loginManager.ReviewerView();
     }
     @FXML public void deleteButtonOnAction() {
         int selected = usersTabPane.getSelectionModel().getSelectedIndex();
         if (selected == 0) {//admin
-            if (adminService.getAll().size() < 2) {
-                showMessage(Alert.AlertType.ERROR, "Delete Admin", "Nu puteti sterge ultimul admin.");
-                return;
-            }
             Admin admin = adminsListView.getSelectionModel().getSelectedItem();
             if (admin == null) {
                 showMessage(Alert.AlertType.ERROR, "Delete Admin", "Adminul selectat este invalid !");
+                return;
+            }
+            if (admin.getPassword().equals(this.admin.getUsername())) {
+                showMessage(Alert.AlertType.ERROR, "Delete Admin", "Nu-ti poti sterge propriul cont !");
                 return;
             }
             adminService.delete(admin.getUsername());
@@ -285,7 +300,12 @@ public class AdminWindowController
                 showMessage(Alert.AlertType.ERROR, "Delete Author", "Author-ul selectat este invalid !");
                 return;
             }
-            // TODO : check foreign keys for author (legaf, participants)
+            if (participantsService.getAll().stream().filter(p->p.getIda() == author.getIda()).collect(Collectors.toList()).size() > 0 ||
+                AULRepository.findAuthorInLegaf(author)) {
+                showMessage(Alert.AlertType.ERROR, "Delete Author", "Author-ul selectat are alte date atasate programului !\nStergeti acele date apoi incercati din nou !");
+                return;
+            }
+
             AULRepository.delete(author.getUsername());
             //authorList.remove(author);
             //authorObservableList.remove(author);
@@ -297,7 +317,10 @@ public class AdminWindowController
                 showMessage(Alert.AlertType.ERROR, "Delete CM", "CM-ul selectat este invalid !");
                 return;
             }
-            // TODO : check foreign keys for cm and reviewer (sections, accept)
+            if (sectionRepository.getAll().stream().filter(s->s.getSesChair() == cm.getId()).collect(Collectors.toList()).size() > 0) {
+                showMessage(Alert.AlertType.ERROR, "Delete CM", "CM-ul selectat are alte date atasate programului !\nStergeti acele date apoi incercati din nou !");
+                return;
+            }
             CMLRepository.delete(cm.getUsername());
             //cmList.remove(cm);
             //cmObservableList.remove(cm);

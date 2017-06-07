@@ -11,7 +11,6 @@
         <id name="idpa" type="int" column="idpa">
             <generator class="native"/>
         </id>
-        <property name="typepa" column="typepa" type="string"/>
         <property name="ida" column="ida" type="int"/>
         <property name="idat" column="idat" type="int"/>
         <property name="ids" column="ids" type="int"/>

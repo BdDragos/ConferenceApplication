@@ -485,4 +485,21 @@ public class AuthorsRepository implements CRUDRepository
         }
         return author;
     }
+
+    public boolean findAuthorInLegaf(Author author) {
+        boolean ret = false;
+        try {
+            String query = "SELECT * FROM legaf WHERE ida = ?";
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setInt(1, author.getIda());
+            ResultSet result = preparedStmt.executeQuery();
+            if (result.next())
+                ret = true;
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        return ret;
+    }
 }
