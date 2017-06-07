@@ -53,6 +53,8 @@ public class CMRepository implements CRUDRepository
     public boolean login(String username, String password)
     {
         CM cm = findOne(username);
+        if (cm == null)
+            return false;
         if (cm.getPassword().equals(password))
             return true;
         return false;

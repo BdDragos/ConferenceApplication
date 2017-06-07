@@ -26,7 +26,7 @@ public class Validators {
     public static boolean ValidateURL(String url) {
         if (url == null || url.equals(""))
             return false;
-        final String pattern = "<\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]>";
+        final String pattern = "^(http:\\/\\/|https:\\/\\/)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?$";
         if(!url.matches(pattern))
             return false;
         return true;

@@ -5,49 +5,40 @@ package model;
  */
 public class Participants
 {
-    private int idpa;
-    private String typepa;
-    private int ida;
-    private int idat;
-    private int ids;
+    private Integer idpa;
+    private Integer ida;
+    private Integer idat;
+    private Integer ids;
 
-    public int getIdpa() {
+    public Integer getIdpa() {
         return idpa;
     }
 
-    public void setIdpa(int idpa) {
+    public void setIdpa(Integer idpa) {
         this.idpa = idpa;
     }
 
-    public String getTypepa() {
-        return typepa;
-    }
-
-    public void setTypepa(String typepa) {
-        this.typepa = typepa;
-    }
-
-    public int getIda() {
+    public Integer getIda() {
         return ida;
     }
 
-    public void setIda(int ida) {
+    public void setIda(Integer ida) {
         this.ida = ida;
     }
 
-    public int getIdat() {
+    public Integer getIdat() {
         return idat;
     }
 
-    public void setIdat(int idat) {
+    public void setIdat(Integer idat) {
         this.idat = idat;
     }
 
-    public int getIds() {
+    public Integer getIds() {
         return ids;
     }
 
-    public void setIds(int ids) {
+    public void setIds(Integer ids) {
         this.ids = ids;
     }
 }

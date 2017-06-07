@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import database.Database;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import model.Admin;
 import model.Attendant;
 import model.Participants;
 import org.hibernate.SessionFactory;
@@ -79,6 +80,8 @@ public class Main extends Application
     private DefaultUserService defaultUserService;
     private ParticipantsService participantsService;
 
+    public boolean bAdminActive;
+    public Admin activeAdmin;
 
     private static void execute(String sql)
     {
@@ -92,6 +95,8 @@ public class Main extends Application
 
     public void start(Stage primaryStage)
     {
+        bAdminActive = false;
+
         Database dtb = new Database();
         SessionFactory factory = dtb.getConnection();
 
@@ -205,7 +210,7 @@ public class Main extends Application
             URL fxmlUrl = new File(pathToFxml).toURI().toURL();
             loader5.setLocation(fxmlUrl);
 
-            controlAdmin = new AdminWindowController(this, CMLRepository, ATLRepository, AULRepository, RVWRepo, adminService, defaultUserService, participantsService);
+            controlAdmin = new AdminWindowController(this, CMLRepository, ATLRepository, AULRepository, RVWRepo, adminService, defaultUserService, participantsService, secRepo);
             loader5.setController(controlAdmin);
             rootLayout5 = loader5.load();
             scene5 = new Scene(rootLayout5);
@@ -254,15 +259,18 @@ public class Main extends Application
             ComitteeView();
         if (check == 4)
             AuthorView(idforfile);
-        if (check == 5)
-            AdminView();
         if (check == 6)
             AttendantView();
     }
 
     public void logOut()
     {
-        LoginView();
+        if (bAdminActive && activeAdmin != null) {
+            bAdminActive = false;
+            AdminView(activeAdmin);
+        }
+        else
+            LoginView();
     }
 
     public void LoginView()
@@ -291,11 +299,11 @@ public class Main extends Application
         controlAuthor.initialize(idforfile);
     }
 
-    public void AdminView()
+    public void AdminView(Admin admin)
     {
         primaryStage.setScene(scene5);
         primaryStage.show();
-        controlAdmin.initialize();
+        controlAdmin.initialize(admin);
     }
     public void AttendantView()
     {
