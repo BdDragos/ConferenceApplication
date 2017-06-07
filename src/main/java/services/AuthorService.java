@@ -71,7 +71,7 @@ public class AuthorService
             return 0;
         }
         Date currentDate = new Date();
-        if (got.before(currentDate) || got.equals(currentDate))
+        if (currentDate.before(got))
             return repo.uploadFile(prop,key,top,link,abs,idses,autr);
         else
             return 3;
@@ -90,7 +90,7 @@ public class AuthorService
             return 0;
         }
         Date currentDate = new Date();
-        if (got.before(currentDate) || got.equals(currentDate))
+        if (currentDate.before(got))
             return repo.updateFile(prop,key,top,link,abs,idses,autr,idf);
         else
             return 3;

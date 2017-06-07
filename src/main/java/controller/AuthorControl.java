@@ -237,7 +237,7 @@ public class AuthorControl
                     autr.clear();
                     authorCombo.setItems(aut);
                     files.clear();
-                    files = FXCollections.observableArrayList(lista);
+                    files = FXCollections.observableArrayList(service.getAfterFileId(idforfile));
                     fileTable.refresh();
                     showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was updated with success");
                 } else if (ok == 2) {
