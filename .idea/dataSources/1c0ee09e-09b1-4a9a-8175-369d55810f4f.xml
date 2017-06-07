@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="Hibernate.cfg.xml/Hibernate">
-  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.2">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.1">
     <root id="1"/>
     <schema id="2" parent="1" name="cms">
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
-    <schema id="3" parent="1" name="flights"/>
-    <schema id="4" parent="1" name="information_schema"/>
-    <schema id="5" parent="1" name="mysql"/>
-    <schema id="6" parent="1" name="performance_schema"/>
-    <schema id="7" parent="1" name="phpmyadmin"/>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="mysql"/>
+    <schema id="5" parent="1" name="performance_schema"/>
+    <schema id="6" parent="1" name="phpmyadmin"/>
+    <schema id="7" parent="1" name="pw"/>
     <schema id="8" parent="1" name="test"/>
     <table id="9" parent="2" name="accept"/>
     <table id="10" parent="2" name="admin"/>
@@ -232,15 +232,15 @@
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="61" parent="15" name="reviewerCount">
-      <Position>7</Position>
-      <DataType>int(11)|0</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
-    </column>
-    <column id="62" parent="15" name="idses">
+    <column id="61" parent="15" name="idses">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="62" parent="15" name="reviewerCount">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
     <column id="63" parent="15" name="abstractData">
       <Position>8</Position>
@@ -388,11 +388,11 @@
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="93" parent="18" name="idc">
-      <ColNames>idc</ColNames>
-    </index>
-    <index id="94" parent="18" name="fk_section_cm">
+    <index id="93" parent="18" name="fk_section_cm">
       <ColNames>seschair</ColNames>
+    </index>
+    <index id="94" parent="18" name="idc">
+      <ColNames>idc</ColNames>
     </index>
     <key id="95" parent="18" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>

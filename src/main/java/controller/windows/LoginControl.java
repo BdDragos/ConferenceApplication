@@ -1,4 +1,4 @@
-package controller;
+package controller.windows;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,12 +11,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.Main;
 import repository.*;
+import services.AdminService;
+import services.DefaultUserService;
+import validators.Validators;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.time.Duration;
 import java.util.ResourceBundle;
 
 /**
@@ -39,18 +40,19 @@ public class LoginControl implements Initializable {
     private AttendantRepository ATLRepository;
     private AuthorsRepository AULRepository;
     private ReviewerRepository RVWRepo;
-    private AdminRepository ADRepo;
-    private DefaultUserRepository DURepo;
+    private AdminService adminService;
+    private DefaultUserService defaultUserService;
 
 
-    public LoginControl(CMRepository cmloginRep, AttendantRepository atloginrep, AuthorsRepository atuloginrep, ReviewerRepository RVWRepo, AdminRepository ADRepo, DefaultUserRepository DURepo)
+
+    public LoginControl(CMRepository cmloginRep, AttendantRepository atloginrep, AuthorsRepository atuloginrep, ReviewerRepository RVWRepo, AdminService adminService, DefaultUserService defaultUserService)
     {
         this.CMLRepository = cmloginRep;
         this.ATLRepository = atloginrep;
         this.AULRepository = atuloginrep;
         this.RVWRepo = RVWRepo;
-        this.ADRepo = ADRepo;
-        this.DURepo = DURepo;
+        this.adminService = adminService;
+        this.defaultUserService = defaultUserService;
         this.secondStage = new Stage();
     }
 
@@ -83,10 +85,10 @@ public class LoginControl implements Initializable {
                     int response = 0;
                     String userName = userField.getText();
                     String password = passwordField.getText();
-                    if (userName == null) {
-                        showErrorMessage("Dati un username");
-                    } else if (password == null) {
-                        showErrorMessage("Dati o parola");
+                    if (!Validators.ValidateName(userName)) {
+                        showErrorMessage("Username invalid.\nIntroduceti alt username !");
+                    } else if (!Validators.ValidatePassword(password)) {
+                        showErrorMessage("Parola invalida.\nIntroduceti alta parola !");
                     } else
                         {
                             if (cmRadio.isSelected())
@@ -124,7 +126,7 @@ public class LoginControl implements Initializable {
                             }
                             else if (adminRadio.isSelected())
                             {
-                                    if (ADRepo.login(userName, password)) {
+                                    if (adminService.login(userName, password)) {
                                         showMessage(Alert.AlertType.CONFIRMATION);
                                         response = 5;
                                     }
@@ -153,7 +155,7 @@ public class LoginControl implements Initializable {
             URL fxmlUrl = new File(pathToFxml).toURI().toURL();
             loader.setLocation(fxmlUrl);
 
-            RegisterControl registerCont = new RegisterControl(DURepo);
+            RegisterControl registerCont = new RegisterControl(defaultUserService);
             loader.setController(registerCont);
             AnchorPane rootLayout1;
             Scene scene1;

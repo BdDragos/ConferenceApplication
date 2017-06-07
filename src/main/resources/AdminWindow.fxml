@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -8,20 +9,129 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="515.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="logoutButton" layoutX="532.0" layoutY="361.0" mnemonicParsing="false" onAction="#setLogoutAction" text="Logout" />
-      <Label layoutX="52.0" layoutY="14.0" text="Register users" />
-      <ComboBox fx:id="usersComboBox" layoutX="14.0" layoutY="43.0" prefWidth="150.0" promptText="Select an user..." />
-      <ComboBox fx:id="accessComboBox" layoutX="14.0" layoutY="78.0" prefWidth="150.0" promptText="Select the access..." />
-      <Button fx:id="registerButton" layoutX="14.0" layoutY="185.0" mnemonicParsing="false" onAction="#registerButtonOnAction" prefHeight="25.0" prefWidth="66.0" text="Register" />
-      <Button fx:id="deleteButton" layoutX="99.0" layoutY="185.0" mnemonicParsing="false" onAction="#deleteButtonOnAction" prefHeight="25.0" prefWidth="66.0" text="Delete" />
-      <ComboBox fx:id="infoComboBox" layoutX="15.0" layoutY="114.0" prefWidth="150.0" promptText="Optional Info..." />
-      <TextField fx:id="infoTextField" layoutX="16.0" layoutY="147.0" onKeyReleased="#infoTextFieldOnKeyReleased" />
-      <Label fx:id="infoLabel" layoutX="32.0" layoutY="172.0" text="For saving info, press Enter">
+      <ComboBox fx:id="defaultUsersComboBox" layoutX="33.0" layoutY="33.0" prefHeight="32.0" prefWidth="554.0" promptText="Selecteaza un utilizator..." />
+      <VBox layoutX="33.0" layoutY="92.0" prefHeight="200.0" prefWidth="183.0" spacing="20.0">
+         <children>
+            <RadioButton fx:id="adminRadioButton" mnemonicParsing="false" text="Admin">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="attendantRadioButton" mnemonicParsing="false" text="Attendant">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="authorRadioButton" mnemonicParsing="false" text="Author">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="cmRadioButton" mnemonicParsing="false" text="CM">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="reviewerRadioButton" mnemonicParsing="false" text="Reviewer">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </RadioButton>
+         </children>
+      </VBox>
+      <TitledPane fx:id="nameTitledPane" animated="false" collapsible="false" layoutX="324.0" layoutY="93.0" prefHeight="67.0" prefWidth="265.0" text="Introduceti numele aici...">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="nameTextField" layoutX="10.0" layoutY="5.0" prefHeight="41.0" prefWidth="263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane fx:id="affiliationTitledPane" animated="false" collapsible="false" layoutX="324.0" layoutY="173.0" prefHeight="67.0" prefWidth="265.0" text="Introduceti afilierea aici...">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="affiliationTextField" layoutX="10.0" layoutY="5.0" prefHeight="41.0" prefWidth="263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TitledPane fx:id="emailTitledPane" animated="false" collapsible="false" layoutX="324.0" layoutY="335.0" prefHeight="67.0" prefWidth="265.0" text="Introduceti email-ul aici...">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="emailTextField" layoutX="10.0" layoutY="5.0" prefHeight="41.0" prefWidth="263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <Separator layoutX="299.0" layoutY="93.0" orientation="VERTICAL" prefHeight="313.0" prefWidth="5.0" />
+      <Separator prefHeight="0.0" prefWidth="510.0" />
+      <Button fx:id="activateButton" layoutX="33.0" layoutY="369.0" mnemonicParsing="false" onAction="#activateButtonOnAction" prefHeight="32.0" prefWidth="227.0" text="Activeaza cont">
          <font>
-            <Font name="System Bold" size="9.0" />
+            <Font size="15.0" />
          </font>
-      </Label>
+      </Button>
+      <Button fx:id="attendantButton" layoutX="14.0" layoutY="469.0" mnemonicParsing="false" onAction="#attendantButtonOnAction" prefHeight="32.0" prefWidth="125.0" text="Attendant" />
+      <Separator layoutX="14.0" layoutY="422.0" prefHeight="11.0" prefWidth="575.0" />
+      <Button fx:id="authorButton" layoutX="169.0" layoutY="469.0" mnemonicParsing="false" onAction="#authorButtonOnAction" prefHeight="32.0" prefWidth="125.0" text="Author" />
+      <Button fx:id="cmButton" layoutX="310.0" layoutY="469.0" mnemonicParsing="false" onAction="#cmButtonOnAction" prefHeight="32.0" prefWidth="125.0" text="CM" />
+      <Button fx:id="reviewerButton" layoutX="464.0" layoutY="469.0" mnemonicParsing="false" onAction="#reviewerButtonOnAction" prefHeight="32.0" prefWidth="125.0" text="Reviewer" />
+      <Label layoutX="33.0" layoutY="433.0" />
+      <Button fx:id="logoutButton" layoutX="825.0" layoutY="469.0" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="32.0" prefWidth="125.0" text="Logout" />
+      <TitledPane fx:id="websiteTitledPane" animated="false" collapsible="false" layoutX="324.0" layoutY="259.0" prefHeight="67.0" prefWidth="265.0" text="Introduceti email-ul aici...">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="websiteTextField" layoutX="10.0" layoutY="5.0" prefHeight="41.0" prefWidth="263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <Separator layoutX="614.0" layoutY="33.0" orientation="VERTICAL" prefHeight="367.0" prefWidth="6.0" />
+      <TabPane fx:id="usersTabPane" layoutX="629.0" layoutY="33.0" prefHeight="200.0" prefWidth="320.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab closable="false" text="Admins">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="adminsListView" layoutX="7.0" layoutY="-43.0" prefHeight="171.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+          <Tab closable="false" text="Attendants">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="attendantsListView" layoutX="14.0" layoutY="-29.0" prefHeight="171.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Authors">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="authorsListView" layoutX="-20.0" layoutY="-4.0" prefHeight="171.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab closable="false" text="CMs and Reviewers">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="cmsListView" layoutX="14.0" layoutY="-52.0" prefHeight="171.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="deleteButton" layoutX="629.0" layoutY="250.0" mnemonicParsing="false" onAction="#deleteButtonOnAction" prefHeight="32.0" prefWidth="320.0" text="Sterge utilizator" />
    </children>
 </AnchorPane>

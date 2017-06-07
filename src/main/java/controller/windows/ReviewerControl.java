@@ -1,4 +1,4 @@
-package controller;
+package controller.windows;
 
 import com.sun.jmx.mbeanserver.Repository;
 import javafx.collections.FXCollections;
@@ -46,6 +46,8 @@ public class ReviewerControl {
     private Button hideMineBtn;
     @FXML
     private javafx.scene.control.TextArea absArea;
+    @FXML
+    private Button showAllBtn;
     public ObservableList<File> fileList = FXCollections.observableArrayList();
     final Main loginManager;
     //@FXML
@@ -151,6 +153,14 @@ public class ReviewerControl {
                 }
 
             }
+            fileTable.setItems(fileList);
+            fileTable.getColumns().get(0).setVisible(false);
+            fileTable.getColumns().get(0).setVisible(true);
+        });
+        showAllBtn.setOnAction(e->{
+            fileList = FXCollections.observableArrayList();
+            for(File f : fileRepo.getAll())
+                fileList.add(f);
             fileTable.setItems(fileList);
             fileTable.getColumns().get(0).setVisible(false);
             fileTable.getColumns().get(0).setVisible(true);

@@ -22,18 +22,17 @@ public class AdminRepository implements CRUDRepository {
     {
         this.factory = factory;
     }
-    public boolean login(String username, String password) {
-        boolean ret = false;
+    public Admin findOne(String username) {
+        Admin admin = null;
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM Admin where username = :username and password = :password");
+            Query query = session.createQuery("FROM Admin where username = :username");
             query.setParameter("username", username);
-            query.setParameter("password", password);
             List<Admin> adminList = query.list();
             if (!adminList.isEmpty())
-                ret = true;
+                admin = adminList.get(0);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -41,6 +40,56 @@ public class AdminRepository implements CRUDRepository {
         } finally {
             session.close();
         }
-        return ret;
+        return admin;
+    }
+    public void save(Admin admin) {
+        Transaction tx = null;
+        Session ses = factory.openSession();
+        try {
+            tx = ses.beginTransaction();
+            Query query = ses.createNativeQuery("INSERT INTO Admin (username, password) VALUES (:username, :password)");
+            query.setParameter("username", admin.getUsername());
+            query.setParameter("password", admin.getPassword());
+            query.executeUpdate();
+            tx.commit();
+        } catch (HibernateException ex) {
+            if (tx != null) tx.rollback();
+            ex.printStackTrace();
+        } finally {
+            ses.close();
+        }
+    }
+    public List<Admin> getAll() {
+        List<Admin> lusers = null;
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM Admin");
+            lusers = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return lusers;
+    }
+    public void delete(String username) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("delete Admin where username = :username");
+            query.setParameter("username", username);
+            query.executeUpdate();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 }

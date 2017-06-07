@@ -1,14 +1,11 @@
-package controller;
+package controller.windows;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import repository.DefaultUserRepository;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import services.DefaultUserService;
+import validators.Validators;
 
 /**
  * Created by Dragos on 5/22/2017.
@@ -18,10 +15,10 @@ public class RegisterControl
     @FXML private TextField userField;
     @FXML private PasswordField passField;
     @FXML private PasswordField repeatpassField;
-    private DefaultUserRepository DURepo;
+    private DefaultUserService defaultUserService;
 
-    public RegisterControl(DefaultUserRepository DURepo) {
-        this.DURepo = DURepo;
+    public RegisterControl(DefaultUserService defaultUserService) {
+        this.defaultUserService = defaultUserService;
     }
     public void initialize()
     {
@@ -35,28 +32,28 @@ public class RegisterControl
         String password = passField.getText();
         String repeatpass = repeatpassField.getText();
 
-        if (userName == null)
+        if (!Validators.ValidateName(userName))
         {
-            showErrorMessage("Dati un username");
+            showErrorMessage("Username invalid .\nIntroduceti alt username !");
         }
-        else if (password == null)
+        else if (!Validators.ValidatePassword(password))
         {
-            showErrorMessage("Dati o parola");
+            showErrorMessage("Parola invalida .\nIntroduceti alta parola !");
         }
-        else if (repeatpass == null)
+        else if (!Validators.ValidatePassword(repeatpass))
         {
-            showErrorMessage("Repetati parola");
+            showErrorMessage("Parola invalida .\nIntroduceti parola scrisa mai sus !");
         }
-        else if (password.compareTo(repeatpass) != 0)
+        else if (!password.equals(repeatpass))
             {
                 showErrorMessage("Parolele trebuie sa fie identice.");
             }
             else
-                if (DURepo.findOneByUsername(userName) != null) {
+                if (defaultUserService.findOneByUsername(userName) != null) {
                     showErrorMessage("User-ul deja exista !");
                 }
                 else {
-                    DURepo.add(userName, password);
+                    defaultUserService.save(userName, password);
                     showMessage(Alert.AlertType.CONFIRMATION, "Register !", "Ati fost inregistrat.\nAsteptati ca adminul sa va activeze contul.");
                 }
     }

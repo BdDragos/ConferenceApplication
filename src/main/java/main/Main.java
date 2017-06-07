@@ -1,6 +1,9 @@
 package main;
 
-import controller.*;
+import controller.AdminController;
+import controller.DefaultUserController;
+import controller.ParticipantsController;
+import controller.windows.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -10,11 +13,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import database.Database;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
+import model.Attendant;
+import model.Participants;
 import org.hibernate.SessionFactory;
 import repository.*;
-import javafx.event.ActionEvent;
-import services.ConfService;
-import services.SectionService;
+import services.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,19 +51,34 @@ public class Main extends Application
     private Scene scene4;
     private Scene scene5;
     private Scene scene6;
+
+
     private LoginControl controlLogin;
     private ComiteeControl controlComitee;
     private ReviewerControl controlReviewer;
     private AttendantControl controlAttendant;
     private AuthorControl controlAuthor;
-    private AdminControl controlAdmin;
+    private AdminWindowController controlAdmin;
 
-
+    // Repositories
     private CMRepository CMLRepository;
     private AttendantRepository ATLRepository;
     private AuthorsRepository AULRepository;
     private ReviewerRepository RVWRepo;
-    private AdminRepository ADRepo;
+    private AdminRepository adminRepository;
+    private ParticipantsRepository participantsRepository;
+
+    // Controllers
+    private AdminController adminController;
+    private DefaultUserController defaultUserController;
+    private ParticipantsController participantsController;
+
+
+    // Services
+    private AdminService adminService;
+    private DefaultUserService defaultUserService;
+    private ParticipantsService participantsService;
+
 
     private static void execute(String sql)
     {
@@ -75,15 +94,30 @@ public class Main extends Application
     {
         Database dtb = new Database();
         SessionFactory factory = dtb.getConnection();
+
+        // Repositories
         SectionRepository secRepo = new SectionRepository();
         FileRepository fileRepo = new FileRepository();
         ConfRepository cr = new ConfRepository();
         CMRepository CMLRepository = new CMRepository();
         AttendantRepository ATLRepository = new AttendantRepository();
         AuthorsRepository AULRepository = new AuthorsRepository(0);
-        AdminRepository ADRepo = new AdminRepository(factory);
+        adminRepository = new AdminRepository(factory);
         ReviewerRepository RVWRepo = new ReviewerRepository();
-        DefaultUserRepository DURepo = new DefaultUserRepository(factory);
+        DefaultUserRepository defaultUserRepository = new DefaultUserRepository(factory);
+        participantsRepository = new ParticipantsRepository(factory);
+
+
+        // Controllers
+        adminController = new AdminController(adminRepository);
+        defaultUserController = new DefaultUserController(defaultUserRepository);
+        participantsController = new ParticipantsController(participantsRepository);
+
+        // Services
+        adminService = new AdminService(adminController);
+        defaultUserService = new DefaultUserService(defaultUserController);
+        participantsService = new ParticipantsService(participantsController);
+
         this.primaryStage = primaryStage;
         loader = new FXMLLoader();
         loader2 = new FXMLLoader();
@@ -100,7 +134,7 @@ public class Main extends Application
             URL fxmlUrl = new File(pathToFxml).toURI().toURL();
             loader.setLocation(fxmlUrl);
 
-            controlLogin = new LoginControl(CMLRepository,ATLRepository,AULRepository,RVWRepo,ADRepo, DURepo);
+            controlLogin = new LoginControl(CMLRepository,ATLRepository,AULRepository,RVWRepo,adminService, defaultUserService);
             loader.setController(controlLogin);
             rootLayout1 = loader.load();
             scene1 = new Scene(rootLayout1);
@@ -165,15 +199,13 @@ public class Main extends Application
             ex.printStackTrace();
         }
 
-
         try
         {
             String pathToFxml = "src/main/resources/AdminWindow.fxml";
             URL fxmlUrl = new File(pathToFxml).toURI().toURL();
             loader5.setLocation(fxmlUrl);
 
-
-            controlAdmin = new AdminControl(this, CMLRepository, ATLRepository, AULRepository, RVWRepo, ADRepo, DURepo);
+            controlAdmin = new AdminWindowController(this, CMLRepository, ATLRepository, AULRepository, RVWRepo, adminService, defaultUserService, participantsService);
             loader5.setController(controlAdmin);
             rootLayout5 = loader5.load();
             scene5 = new Scene(rootLayout5);
@@ -202,6 +234,8 @@ public class Main extends Application
         {
             ex.printStackTrace();
         }
+
+
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
@@ -238,32 +272,32 @@ public class Main extends Application
         controlLogin.initManager(this);
     }
 
-    private void ReviewerView()
+    public void ReviewerView()
     {
         primaryStage.setScene(scene2);
         primaryStage.show();
     }
 
-    private void ComitteeView()
+    public void ComitteeView()
     {
         primaryStage.setScene(scene3);
         primaryStage.show();
     }
 
-    private void AuthorView(int idforfile)
+    public void AuthorView(int idforfile)
     {
         primaryStage.setScene(scene4);
         primaryStage.show();
         controlAuthor.initialize(idforfile);
     }
 
-    private void AdminView()
+    public void AdminView()
     {
         primaryStage.setScene(scene5);
         primaryStage.show();
         controlAdmin.initialize();
     }
-    private void AttendantView()
+    public void AttendantView()
     {
         primaryStage.setScene(scene6);
         primaryStage.show();
