@@ -14,7 +14,7 @@
       <RadioButton fx:id="attendantRadio" layoutX="262.0" layoutY="190.0" mnemonicParsing="false" text="Attendant" />
       <RadioButton fx:id="cmRadio" layoutX="262.0" layoutY="130.0" mnemonicParsing="false" text="CM" />
       <RadioButton fx:id="authorRadio" layoutX="262.0" layoutY="161.0" mnemonicParsing="false" text="Author" />
-      <RadioButton fx:id="reviewRadio" layoutX="266.0" layoutY="248.0" mnemonicParsing="false" text="Reviewer" />
+      <RadioButton fx:id="reviewRadio" layoutX="263.0" layoutY="248.0" mnemonicParsing="false" text="Reviewer" />
       <RadioButton fx:id="adminRadio" layoutX="263.0" layoutY="220.0" mnemonicParsing="false" text="Admin" />
       <Button fx:id="registerButton" layoutX="159.0" layoutY="175.0" mnemonicParsing="false" onAction="#setOnRegister" prefHeight="31.0" prefWidth="92.0" text="Register" />
    </children>
