@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="601.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="601.0" prefWidth="1259.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TableView fx:id="confTable" layoutX="5.0" layoutY="36.0" onMouseClicked="#fillSection" prefHeight="311.0" prefWidth="352.0">
         <columns>
@@ -62,5 +62,11 @@
       <Label layoutX="328.0" layoutY="482.0" prefHeight="7.0" prefWidth="89.0" text="Session Date" />
       <TextField fx:id="taSectionHour" layoutX="427.0" layoutY="438.0" prefHeight="27.0" prefWidth="135.0" />
       <TextField fx:id="taSectionDate" layoutX="427.0" layoutY="477.0" prefHeight="27.0" prefWidth="135.0" />
+      <TableView fx:id="tablePart" layoutX="991.0" layoutY="36.0" prefHeight="311.0" prefWidth="253.0">
+        <columns>
+          <TableColumn fx:id="tabId" prefWidth="114.0" text="id" />
+          <TableColumn fx:id="tabPart" prefWidth="138.0" text="Nume Participant" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

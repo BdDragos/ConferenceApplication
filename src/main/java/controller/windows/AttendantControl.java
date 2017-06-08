@@ -32,7 +32,6 @@ public class AttendantControl
     private AuthorsRepository authorsRepository = new AuthorsRepository(idforfile);
     private SessionFactory factory;
     private AttendantRepository attRepo = new AttendantRepository();
-    //private AttendantService service = new AttendantService(attRepo);
     public AttendantControl(final Main loginManager) {
         this.loginManager = loginManager;
         //this.factory = factory;

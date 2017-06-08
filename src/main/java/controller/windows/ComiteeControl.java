@@ -10,14 +10,9 @@ import main.Main;
 import model.Conference;
 import model.File;
 import model.Sections;
-import repository.ConfRepository;
 import repository.FileRepository;
-import repository.SectionRepository;
-import services.AuthorService;
 import services.ConfService;
-import services.ReviewerService;
 import services.SectionService;
-import sun.swing.SwingUtilities2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +45,6 @@ public class ComiteeControl
     SectionService ctrlSection;
     FileRepository repoFile;
 
-    //ConfRepository repoConf;
-    //SectionRepository repoSection;
 
     @FXML private TableView<Conference> confTable;
     @FXML private TableColumn<Conference, String> confName;
@@ -66,6 +59,7 @@ public class ComiteeControl
     @FXML private TableColumn<Sections, String> sectionDate;
 
 
+    @FXML private TableView<File> tablePart;
     @FXML private TableView<File> revTable;
     @FXML private TableColumn<File, String> fileTitlu;
     @FXML private TableColumn<File, String> fileDoc;
