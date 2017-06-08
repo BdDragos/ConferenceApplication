@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<AnchorPane prefHeight="670.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="670.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="36.0" layoutY="105.0" text="Abstract Deadline:" />
       <Label layoutX="35.0" layoutY="141.0" text="Proposal Deadline:" />
@@ -32,7 +32,7 @@
       <ComboBox fx:id="authorCombo" layoutX="144.0" layoutY="567.0" prefHeight="31.0" prefWidth="187.0" />
       <Label layoutX="34.0" layoutY="394.0" text="File cloud link:" />
       <TextField fx:id="linkText" layoutX="144.0" layoutY="389.0" />
-      <TableView fx:id="fileTable" layoutX="353.0" layoutY="24.0" prefHeight="396.0" prefWidth="275.0">
+      <TableView fx:id="fileTable" layoutX="353.0" layoutY="24.0" prefHeight="396.0" prefWidth="395.0">
          <columns>
             <TableColumn fx:id="titlu" prefWidth="139.0" text="Title">
                <cellValueFactory><PropertyValueFactory property="titlu" />
@@ -40,6 +40,10 @@
             </TableColumn>
             <TableColumn fx:id="filedoc" prefWidth="135.0" text="Link">
                <cellValueFactory><PropertyValueFactory property="filedoc" />
+               </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tabAccept" prefWidth="120.0" text="Accept Level" >
+               <cellValueFactory><PropertyValueFactory property="level" />
                </cellValueFactory>
             </TableColumn>
          </columns></TableView>

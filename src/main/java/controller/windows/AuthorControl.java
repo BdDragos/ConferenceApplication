@@ -57,6 +57,7 @@ public class AuthorControl
     @FXML private TextField linkText;
     @FXML private TableColumn<File, String> titlu;
     @FXML private TableColumn<File, String> filedoc;
+    @FXML private TableColumn<File, String> tabAccept;
     @FXML private ListView<Author> listAuthor;
     @FXML private Button fileButton;
     @FXML private Button partikipButton;
@@ -174,39 +175,43 @@ public class AuthorControl
     @FXML
     public void setUpload()
     {
-        if (autr.isEmpty())
-        {
-            showErrorMessage("Introduce at least one author");
-        }
-        else {
-            String prop = propText.getText();
-            String key = keyText.getText();
-            String top = topText.getText();
-            String abs = absText.getText();
-            String link = linkText.getText();
-            String deadline = proposalLabel.getText();
-            int idses = sesCombo.getValue().getIdSection();
-            if (prop.isEmpty() || key.isEmpty() || top.isEmpty() || abs.isEmpty() || link.isEmpty())
-                showErrorMessage("Please fill all the fields");
-            else {
-                int ok = service.uploadFile(prop, key, top, link, abs, autr, idses, deadline);
-                if (ok == 1) {
-                    lista = service.getAllFiles();
-                    autr.clear();
-                    files.clear();
-                    files = FXCollections.observableArrayList(lista);
-                    fileTable.refresh();
-                    showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was added with success");
-                } else if (ok == 2) {
-                    showErrorMessage("The date is invalid");
-                    setOnClear();
-                }
-                else if (ok == 3) {
-                    showErrorMessage("You cannot upload files anymore");
-                    setOnClear();
+        try {
+            if (autr.isEmpty()) {
+                showErrorMessage("Introduce at least one author");
+            } else {
+                String prop = propText.getText();
+                String key = keyText.getText();
+                String top = topText.getText();
+                String abs = absText.getText();
+                String link = linkText.getText();
+                String deadline = proposalLabel.getText();
+                int idses = sesCombo.getValue().getIdSection();
+                if (prop.isEmpty() || key.isEmpty() || top.isEmpty() || abs.isEmpty() || link.isEmpty())
+                    showErrorMessage("Please fill all the fields");
+                else {
+                    int ok = service.uploadFile(prop, key, top, link, abs, autr, idses, deadline);
+                    if (ok == 1) {
+                        lista = service.getAllFiles();
+                        autr.clear();
+                        files.clear();
+                        files = FXCollections.observableArrayList(lista);
+                        fileTable.refresh();
+                        showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was added with success");
+                    } else if (ok == 2) {
+                        showErrorMessage("The date is invalid");
+                        setOnClear();
+                    } else if (ok == 3) {
+                        showErrorMessage("You cannot upload files anymore");
+                        setOnClear();
+                    }
                 }
             }
         }
+        catch(NullPointerException el)
+        {
+            showErrorMessage("Select a file!");
+        }
+
 
     }
 
@@ -214,42 +219,43 @@ public class AuthorControl
     @FXML
     public void setUpdate()
     {
-        if (autr.isEmpty())
-        {
-            showErrorMessage("Introduce at least one author");
-        }
-        else {
-            String prop = propText.getText();
-            String key = keyText.getText();
-            String top = topText.getText();
-            String abs = absText.getText();
-            String link = linkText.getText();
-            String deadline = abstractLabel.getText();
-            int idses = sesCombo.getValue().getIdSection();
-            int idf = fileTable.getSelectionModel().getSelectedItem().getIdF();
-            if (prop.isEmpty() || key.isEmpty() || top.isEmpty() || abs.isEmpty() || link.isEmpty())
-                showErrorMessage("Please fill all the fields");
-            else {
-                int ok = service.updateFile(prop, key, top, link, abs, autr, deadline, idses,idf);
-                if (ok == 1)
-                {
-                    lista = service.getAllFiles();
-                    autr.clear();
-                    authorCombo.setItems(aut);
-                    files.clear();
-                    files = FXCollections.observableArrayList(service.getAfterFileId(idforfile));
-                    fileTable.refresh();
-                    showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was updated with success");
-                } else if (ok == 2) {
-                    showErrorMessage("The date is invalid");
-                    setOnClear();
-                }
-
-                else if (ok == 3) {
-                    showErrorMessage("You cannot update files anymore");
-                    setOnClear();
+        try {
+            if (autr.isEmpty()) {
+                showErrorMessage("Introduce at least one author");
+            } else {
+                String prop = propText.getText();
+                String key = keyText.getText();
+                String top = topText.getText();
+                String abs = absText.getText();
+                String link = linkText.getText();
+                String deadline = abstractLabel.getText();
+                int idses = sesCombo.getValue().getIdSection();
+                int idf = fileTable.getSelectionModel().getSelectedItem().getIdF();
+                if (prop.isEmpty() || key.isEmpty() || top.isEmpty() || abs.isEmpty() || link.isEmpty())
+                    showErrorMessage("Please fill all the fields");
+                else {
+                    int ok = service.updateFile(prop, key, top, link, abs, autr, deadline, idses, idf);
+                    if (ok == 1) {
+                        lista = service.getAllFiles();
+                        autr.clear();
+                        authorCombo.setItems(aut);
+                        files.clear();
+                        files = FXCollections.observableArrayList(service.getAfterFileId(idforfile));
+                        fileTable.refresh();
+                        showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was updated with success");
+                    } else if (ok == 2) {
+                        showErrorMessage("The date is invalid");
+                        setOnClear();
+                    } else if (ok == 3) {
+                        showErrorMessage("You cannot update files anymore");
+                        setOnClear();
+                    }
                 }
             }
+        }
+        catch(NullPointerException el)
+        {
+            showErrorMessage("Select a file!");
         }
 
     }
