@@ -7,17 +7,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.Main;
+import model.CM;
 import model.Conference;
 import org.hibernate.SessionFactory;
-import repository.AttendantRepository;
-import repository.ConfRepository;
-import repository.AuthorsRepository;
+import repository.*;
 import model.Sections;
-import repository.SectionRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dragos on 5/8/2017.
@@ -32,6 +32,12 @@ public class AttendantControl
     private AuthorsRepository authorsRepository = new AuthorsRepository(idforfile);
     private SessionFactory factory;
     private AttendantRepository attRepo = new AttendantRepository();
+    private CMRepository cmRepository = new CMRepository();
+
+    @FXML private Label dataLabel;
+    @FXML private Label hourLabel;
+    @FXML private Label sesChairLabel;
+
     public AttendantControl(final Main loginManager) {
         this.loginManager = loginManager;
         //this.factory = factory;
@@ -63,6 +69,22 @@ public class AttendantControl
 
     private ObservableList<Conference> conferences;
     public void initialize(){
+        sessionComboBox.valueProperty().addListener(new ChangeListener<Sections>() {
+            @Override public void changed(ObservableValue ov, Sections t, Sections t1) {
+                if (t1 != null) {
+                    dataLabel.setText("Data: "+t1.getDate());
+                    hourLabel.setText("Ora: "+t1.getHour());
+                    CM cm = cmRepository.getAll().stream().filter(c->c.getId()==t1.getSesChair()).collect(Collectors.toList()).get(0);
+                    if (cm != null)
+                        sesChairLabel.setText("Nume: "+cm.getName());
+                }
+                else {
+                    dataLabel.setText("Data: ");
+                    hourLabel.setText("Ora: ");
+                    sesChairLabel.setText("Nume: ");
+                }
+            }
+        });
         int id;
         //int id = conferenceComboBox.getSelectionModel().getSelectedItem().getIdConference();
         //conferenceComboBox.getItems().clear();

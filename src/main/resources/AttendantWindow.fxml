@@ -15,5 +15,8 @@
         <Button layoutX="321.0" layoutY="235.0" mnemonicParsing="false" onAction="#setLogoutAction" text="Logout" />
         <Button fx:id="partikip" layoutX="14.0" layoutY="235.0" mnemonicParsing="false" onAction="#partikip" text="I participate as listener" />
         <ComboBox fx:id="sessionComboBox" layoutX="14.0" layoutY="79.0" prefHeight="31.0" prefWidth="184.0" promptText="Select a session" />
+      <Label fx:id="sesChairLabel" layoutX="286.0" layoutY="34.0" />
+      <Label fx:id="dataLabel" layoutX="286.0" layoutY="71.0" />
+      <Label fx:id="hourLabel" layoutX="286.0" layoutY="110.0" />
     </children>
 </AnchorPane>
