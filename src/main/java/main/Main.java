@@ -177,7 +177,7 @@ public class Main extends Application
             loader3.setLocation(fxmlUrl);
 
 
-            controlComitee = new ComiteeControl(this,cs,ss,fileRepo);
+            controlComitee = new ComiteeControl(this,cs,ss,fileRepo,participantsService,ATLRepository, AULRepository, CMLRepository);
             loader3.setController(controlComitee);
             rootLayout3 = loader3.load();
             scene3 = new Scene(rootLayout3);

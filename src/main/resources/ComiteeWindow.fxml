@@ -64,9 +64,13 @@
       <TextField fx:id="taSectionDate" layoutX="427.0" layoutY="477.0" prefHeight="27.0" prefWidth="135.0" />
       <TableView fx:id="tablePart" layoutX="991.0" layoutY="36.0" prefHeight="311.0" prefWidth="253.0">
         <columns>
-          <TableColumn fx:id="tabId" prefWidth="114.0" text="id" />
-          <TableColumn fx:id="tabPart" prefWidth="138.0" text="Nume Participant" />
+          <TableColumn fx:id="tabId" prefWidth="65.0" text="id" />
+          <TableColumn fx:id="tabPart" prefWidth="99.0" text="Autor" />
+            <TableColumn fx:id="tabAtt" prefWidth="87.0" text="Attendant" />
         </columns>
       </TableView>
+      <Label layoutX="834.0" layoutY="373.0" text="Session chair:" />
+      <ComboBox fx:id="cmComboBoxSC" layoutX="916.0" layoutY="369.0" prefWidth="150.0" />
+      <Button fx:id="cmButtonSC" layoutX="916.0" layoutY="404.0" mnemonicParsing="false" onAction="#cmButtonSCOnAction" prefHeight="25.0" prefWidth="150.0" text="Set Ses Chair" />
    </children>
 </AnchorPane>
