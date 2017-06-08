@@ -1,21 +1,28 @@
 package controller.windows;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import main.Main;
-import model.Conference;
-import model.File;
-import model.Sections;
+import model.*;
+import repository.AttendantRepository;
+import repository.AuthorsRepository;
+import repository.CMRepository;
 import repository.FileRepository;
 import services.ConfService;
+import services.ParticipantsService;
 import services.SectionService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dragos on 5/8/2017.
@@ -26,11 +33,15 @@ public class ComiteeControl
 {
     final Main loginManager;
 
-    public ComiteeControl(final Main loginManager, ConfService cs, SectionService ss, FileRepository fr)
+    public ComiteeControl(final Main loginManager, ConfService cs, SectionService ss, FileRepository fr, ParticipantsService participantsService,  AttendantRepository attendantRepository, AuthorsRepository authorsRepository, CMRepository cmRepository)
     {
         this.ctrlConf = cs;
         this.ctrlSection = ss;
         this.repoFile =fr;
+        this.participantsService = participantsService;
+        this.attendantRepository = attendantRepository;
+        this.authorsRepository = authorsRepository;
+        this.cmRepository = cmRepository;
 
         this.loginManager = loginManager;
     }
@@ -40,11 +51,13 @@ public class ComiteeControl
     {
         loginManager.logOut();
     }
-
+    AttendantRepository attendantRepository;
+    AuthorsRepository authorsRepository;
     ConfService ctrlConf;
     SectionService ctrlSection;
     FileRepository repoFile;
-
+    ParticipantsService participantsService;
+    CMRepository cmRepository;
 
     @FXML private TableView<Conference> confTable;
     @FXML private TableColumn<Conference, String> confName;
@@ -60,6 +73,10 @@ public class ComiteeControl
 
 
     @FXML private TableView<File> tablePart;
+    @FXML private TableColumn<Participants, Integer> tabId;
+    @FXML private TableColumn<Participants, String> tabPart;
+    @FXML private TableColumn<Participants, String> tabAtt;
+
     @FXML private TableView<File> revTable;
     @FXML private TableColumn<File, String> fileTitlu;
     @FXML private TableColumn<File, String> fileDoc;
@@ -83,6 +100,9 @@ public class ComiteeControl
     @FXML private Button btSectionDelete;
     @FXML private Button btAcceptFile;
     @FXML private Button btRejectFile;
+    @FXML private Button cmButtonSC;
+
+    @FXML private ComboBox<CM> cmComboBoxSC;
 
 
     private ObservableList conferences;
@@ -91,19 +111,112 @@ public class ComiteeControl
     private ObservableList sections;
     private List<Sections> sectionList = new ArrayList<Sections>();
 
+    private ObservableList participantsOList;
+    private List<Participants> participantsList;
+
+    private ObservableList authorOList;
+    private List<Author> authorList;
+
+    private ObservableList attendantOList;
+    private List<Attendant> attendantList;
+
+    private ObservableList cmOList;
+    private List<CM> cmList;
+
 
     private ObservableList files;
     private List<File> fileList = new ArrayList<File>();
 
     public void upFileTable(){
-        fileList = repoFile.getAllBorderline();
-        this.files = FXCollections.observableArrayList(fileList);
-        revTable.setItems(files);
-
+        fileTitlu.setCellValueFactory(new PropertyValueFactory<File, String>("titlu"));
+        fileDoc.setCellValueFactory(new PropertyValueFactory<File, String>("filedoc"));
+        //fileList = repoFile.getAllBorderline();
+        //this.files = FXCollections.observableArrayList(fileList);
     }
     @FXML
     public void initialize()
     {
+        cmList = cmRepository.getAll();
+        cmOList = FXCollections.observableArrayList(cmList);
+        cmComboBoxSC.setItems(cmOList);
+
+        participantsList = participantsService.getAll();
+        participantsOList = FXCollections.observableArrayList(participantsList);
+
+        authorList = authorsRepository.getAllAuthor();
+        authorOList = FXCollections.observableArrayList(authorList);
+        attendantList = attendantRepository.getAll();
+        attendantOList = FXCollections.observableArrayList(attendantList);
+        //tablePart.setItems(participantsOList);
+
+        sectionTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Sections>() {
+            @Override
+            public void changed(ObservableValue<? extends Sections> observable, Sections oldValue, Sections newValue) {
+                if (newValue != null) {
+                    participantsList = participantsService.getAll().stream().filter(p->p.getIds()==newValue.getIdSection()).collect(Collectors.toList());
+                    if (participantsList.size() < 1) {
+                        tablePart.getItems().removeAll();
+                    }
+                    else {
+                        participantsOList = FXCollections.observableArrayList(participantsList);
+                        tablePart.getItems().removeAll();
+                        tablePart.setItems(participantsOList);
+                    }
+                    fileList = repoFile.getAllBorderline().stream().filter(f -> f.getIdses() == newValue.getIdSection()).collect(Collectors.toList());
+                    for (File f : fileList)
+                        System.out.println(f.toString());
+                    if (fileList.size() < 1) {
+                        revTable.getItems().removeAll();
+                    }
+                    else {
+                        files = FXCollections.observableArrayList(fileList);
+                        revTable.getItems().removeAll();
+                        revTable.setItems(files);
+                    }
+                }
+            }
+        });
+
+        tabId.setCellValueFactory(new PropertyValueFactory<Participants, Integer>("idpa"));
+        tabPart.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Participants, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Participants, String> p) {
+                if (p.getValue() != null) {
+                    Participants pp = p.getValue();
+                    if (pp.getIda() != null) {
+                        Author author = authorList.stream().filter(a->a.getIda()==pp.getIda()).collect(Collectors.toList()).get(0);
+                        if (author != null)
+                            return new SimpleStringProperty(author.getName());
+                        else
+                            return new SimpleStringProperty("N/A");
+                    }
+                    else return new SimpleStringProperty("N/A");
+                } else {
+                    return new SimpleStringProperty("N/A");
+                }
+            }
+        });
+        tabAtt.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Participants, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Participants, String> p) {
+                if (p.getValue() != null) {
+                    Participants pp = p.getValue();
+                    if (pp.getIdat() != null) {
+                        Attendant attendant = attendantList.stream().filter(a->a.getIdat()==pp.getIdat()).collect(Collectors.toList()).get(0);
+                        if (attendant != null)
+                            return new SimpleStringProperty(attendant.getUsername());
+                        else
+                            return new SimpleStringProperty("N/A");
+                    }
+                    else return new SimpleStringProperty("N/A");
+                } else {
+                    return new SimpleStringProperty("N/A");
+                }
+            }
+        });
+
         confName.setCellValueFactory(new PropertyValueFactory<Conference, String>("name"));
         confNopart.setCellValueFactory(new PropertyValueFactory<Conference, Integer>("noParticipants"));
         confDeadlineProp.setCellValueFactory(new PropertyValueFactory<Conference, String>("deadlineProposal"));
@@ -120,43 +233,21 @@ public class ComiteeControl
 
         this.conferences = FXCollections.observableArrayList(confList);
         upFileTable();
-
-        conferences.addListener(new ListChangeListener()
-        {
-            @Override
-            public void onChanged(Change change)
-            {
-
-            }
-        });
-
-//        sections.addListener(new ListChangeListener()
-//        {
-//            @Override
-//            public void onChanged(Change change)
-//            {
-//
-//            }
-//        });
-
-        files.addListener(new ListChangeListener()
-        {
-            @Override
-            public void onChanged(Change change)
-            {
-
-            }
-        });
-
-
         confTable.setItems(conferences);
-       // sectionTable.setItems(sections);
-
-
     }
 
 
-
+    @FXML
+    private void cmButtonSCOnAction() {
+        CM cm = cmComboBoxSC.getSelectionModel().getSelectedItem();
+        if (cm == null)
+            return;
+        Sections sections = sectionTable.getSelectionModel().getSelectedItem();
+        if (sections == null)
+            return;
+        ctrlSection.updateSection(sections.getIdSection(),cm.getId(),sections.getName(), sections.getHour(), sections.getDate());
+        sectionTable.getSelectionModel().getSelectedItem().setSesChair(cm.getId());
+    }
 
     @FXML
     public List<Conference> getAllConf() {
@@ -235,12 +326,12 @@ public class ComiteeControl
     @FXML
     public void acceptFile(){
         ((File)revTable.getSelectionModel().getSelectedItem()).setLevel("Accept");
-        upFileTable();
+        //upFileTable();
     }
 
     @FXML
     public void rejectFile() {
         ((File)revTable.getSelectionModel().getSelectedItem()).setLevel("Reject");
-        upFileTable();
+        //upFileTable();
     }
 }

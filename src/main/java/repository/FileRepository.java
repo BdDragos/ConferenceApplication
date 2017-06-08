@@ -116,7 +116,7 @@ public class FileRepository {
     public List<File> getAllBorderline(){
         List<File> borderlineFiles = new ArrayList<>();
         for(File f : fileList)
-            if(f.getLevel().equals("Borderline"))
+            if(f.getLevel().equals("borderline"))
                 borderlineFiles.add(f);
         return borderlineFiles;
     }
