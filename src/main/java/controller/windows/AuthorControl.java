@@ -168,6 +168,8 @@ public class AuthorControl
     @FXML
     public void setLogoutAction()
     {
+        authorCombo.setItems(aut);
+        autr.clear();
         loginManager.logOut();
     }
 
@@ -190,12 +192,16 @@ public class AuthorControl
                     showErrorMessage("Please fill all the fields");
                 else {
                     int ok = service.uploadFile(prop, key, top, link, abs, autr, idses, deadline);
-                    if (ok == 1) {
-                        lista = service.getAllFiles();
+                    if (ok == 1)
+                    {
                         autr.clear();
                         files.clear();
-                        files = FXCollections.observableArrayList(lista);
-                        fileTable.refresh();
+                        lista = service.getAllFiles();
+                        this.files = FXCollections.observableArrayList(lista);
+
+                        fileTable.getItems().removeAll();
+                        fileTable.setItems(files);
+
                         showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was added with success");
                     } else if (ok == 2) {
                         showErrorMessage("The date is invalid");
@@ -235,13 +241,16 @@ public class AuthorControl
                     showErrorMessage("Please fill all the fields");
                 else {
                     int ok = service.updateFile(prop, key, top, link, abs, autr, deadline, idses, idf);
-                    if (ok == 1) {
-                        lista = service.getAllFiles();
+                    if (ok == 1)
+                    {
                         autr.clear();
-                        authorCombo.setItems(aut);
                         files.clear();
-                        files = FXCollections.observableArrayList(service.getAfterFileId(idforfile));
-                        fileTable.refresh();
+                        lista = service.getAllFiles();
+                        this.files = FXCollections.observableArrayList(lista);
+
+                        fileTable.getItems().removeAll();
+                        fileTable.setItems(files);
+                        authorCombo.setItems(aut);
                         showMessage(Alert.AlertType.CONFIRMATION, "Succes", "The file was updated with success");
                     } else if (ok == 2) {
                         showErrorMessage("The date is invalid");
