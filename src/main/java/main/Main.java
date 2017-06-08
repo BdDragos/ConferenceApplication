@@ -130,6 +130,7 @@ public class Main extends Application
         loader4 = new FXMLLoader();
         loader5 = new FXMLLoader();
         loader6 = new FXMLLoader();
+        this.primaryStage.setTitle("Conference Application");
         ConfService cs = new ConfService(cr);
         SectionService ss = new SectionService(secRepo);
 
